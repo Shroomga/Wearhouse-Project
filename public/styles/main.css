@@ -2,11 +2,13 @@ h1{
     margin: 0px;
 }
 
-.nav{
+nav{
     background-color: rgb(222, 171, 43);
+    
 }
 
-.nav-panel{
-    width: 100%;
+body{
+    background: blue;
 }
+
 
