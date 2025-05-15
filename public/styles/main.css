@@ -8,7 +8,12 @@ nav{
 }
 
 body{
-    background: blue;
+    background-image: url("/public/images/home background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
+.home-banner{
+    height: 100vh;
+}
 
