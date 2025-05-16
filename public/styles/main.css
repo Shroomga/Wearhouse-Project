@@ -6,8 +6,10 @@ nav{
     background-color: rgb(222, 171, 43);
     
 }
-
 body{
+    background-color: #C5C9F0;
+}
+.home-page{
     background-image: url("/public/images/home background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -15,5 +17,15 @@ body{
 
 .home-banner{
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.home-brand{
+    color: #C5C9F0;
+}
+button{
+    background-color: #D4F0C5;
+    border-style: none;
+}
