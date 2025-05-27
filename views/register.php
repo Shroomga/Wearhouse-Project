@@ -9,13 +9,13 @@
 <body>
     <div class="container">
         <h1>Register</h1>
-        <form>
+        <form action="./auth.php" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="password" placeholder="Password">
             <input type="text" name="confirm" placeholder="Confirm password">
-            <button type="submit">Register</button>
+            <input type="submit" name="register" value="Register">
         </form>
-        <p>Already have an account? <a href="./login.html">Login</a></p>
+        <p>Already have an account? <a href="./login.php">Login</a></p>
     </div>
 </body>
 </html>

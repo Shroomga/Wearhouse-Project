@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form>
+        <form action="./auth.php" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="password" placeholder="Password">
-            <button type="submit">Login</button>
+            <input type="submit" name="login" value="Login">
         </form>
-        <p>Haven't made an account yet? <a href="./register.html">Register</a></p>
+        <p>Haven't made an account yet? <a href="./register.php">Register</a></p>
     </div>
 </body>
 </html>
