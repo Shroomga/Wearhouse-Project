@@ -1,15 +1,24 @@
 
 <?php
+    include("../database.php");
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
-    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-    $confirm = $_POST["confirm"];
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-    if($confirm === $password){
-        $registered = true;
-    }else{
+        $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
         $registered = false;
-    }
+        $confirm = $_POST["confirm"];
+        if($confirm === $password){
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            try{
+                $registered = true;
+                mysqli_query($conn, "INSERT INTO users (username, password)
+                            VALUES('$username', '$hash')");
+                
+            }catch(mysqli_sql_exception){
+                $registered = false;
+            }
+        }else{
+        $registered = false;
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -27,8 +36,8 @@
         <h1>Register</h1>
         <form action="" method="post">
             <input type="text" name="username" placeholder="Username">
-            <input type="text" name="password" placeholder="Password">
-            <input type="text" name="confirm" placeholder="Confirm password">
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="confirm" placeholder="Confirm password">
             <input type="submit" name="register" value="Register">
         </form>
         <p>Already have an account? <a href="./login.php">Login</a></p>
@@ -39,3 +48,6 @@
 </body>
 </html>
 
+<?php
+    mysqli_close($conn);
+?>
