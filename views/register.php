@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Register</h1>
-        <form action="./auth.php" method="post">
+        <form action="" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="password" placeholder="Password">
             <input type="text" name="confirm" placeholder="Confirm password">
@@ -19,3 +19,9 @@
     </div>
 </body>
 </html>
+
+<?php
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    header("../views/login.php");
+?>

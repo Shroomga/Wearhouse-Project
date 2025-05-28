@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form action="./auth.php" method="post">
+        <form action="" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="password" placeholder="Password">
             <input type="submit" name="login" value="Login">
@@ -18,3 +18,9 @@
     </div>
 </body>
 </html>
+
+<?php
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    header("../views/store.html");
+?>
