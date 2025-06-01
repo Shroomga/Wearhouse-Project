@@ -7,6 +7,8 @@
 </head>
 <body>
     <form>
+        <!-- add labels later -->
+        <input name="name" type="text" placeholder="Enter your product's name.">
         <select name="category">
             <option value="shirts">Shirts</option>
             <option value="trousers">Trousers</option>
@@ -15,7 +17,8 @@
             <option value="blouses">Blouses</option>
             <option value="shoes">Shoes</option>
         </select>
-        <input type="text" name="description">
+        <textarea name="description" rows="4" cols="25" placeholder="Enter description here..."></textarea>
+        <input type="text" name="price" placeholder="Price in rands.">
         <input type="submit" value="Add Item">
     </form>
 </body>
