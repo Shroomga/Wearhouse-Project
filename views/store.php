@@ -29,7 +29,7 @@
                 <p>Details 1</p>
                 <input type="submit" name="add" value="Add to Cart">
                 </form>
-                <p><a href="./cart.html">Go to Cart</a></p>
+                <p><a href="./cart.php">Go to Cart</a></p>
             </div>
         </div>
     </div>

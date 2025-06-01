@@ -1,3 +1,7 @@
+<?php
+    include("../database.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +18,7 @@
             </div>
             <div>
                 <h2>Your cart is currently empty</h2>
-                <a href="./store.html">Return to shop-front.</a>
+                <a href="./store.php">Return to shop-front.</a>
             </div>
         </div>
         <div>
