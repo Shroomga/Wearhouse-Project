@@ -15,8 +15,11 @@
     <div>
         <?php if($_SESSION["type"] = "user"){ ?>
         <div>
+            <form action="" method="POST">
             <p>Use your account to begin selling products.</p>
             <button type="submit" name="confirm">Confirm.</button>
+            </form>
+            
         </div>
         <?php }else{ ?>
             <div>
@@ -31,7 +34,8 @@
 <?php
     if(isset($_POST["confirm"])){
         try {
-            $id = $_SESSION["id"];
+            echo $_SESSION["userID"];
+            $id = $_SESSION["userID"];
             mysqli_query($conn, "UPDATE users
                         SET type= 'seller'
                         WHERE users.id = '$id'");

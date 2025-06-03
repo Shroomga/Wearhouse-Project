@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="../public/styles/main.css">
 </head>
 <body>
+    <a href="./seller-register.php">Become a seller</a>
     <div>
         <div>
         <button>Category 1</button>
