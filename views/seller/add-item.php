@@ -1,13 +1,7 @@
 <?php
     include("database.php");
     session_start();
-    $id = $_SESSION["userID"];
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $name = $_POST["name"];
-        $category = $_POST["category"];
-        $description = $_POST["description"];
-        $price = $_POST["price"];
-    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,5 +31,19 @@
 
 
 <?php
+    $id = $_SESSION["userID"];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $name = $_POST["name"];
+        $category = $_POST["category"];
+        $description = $_POST["description"];
+        $price = $_POST["price"];
+        try {
+            mysqli_query($conn, "INSERT INTO items (name, category, description, price, userID)
+                        VALUES ('$name', '$category', '$description', $price, $id)");
+        } catch (mysqli_sql_exception) {
+            echo "SQL error encountered.";
+        }
+    }
+
     mysqli_close($conn);
 ?>
