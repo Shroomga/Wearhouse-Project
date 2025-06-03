@@ -1,5 +1,5 @@
 <?php
-    include("database.php");
+    include("C:/xampp/htdocs/Wearhouse Project/database.php");
     session_start();
     $id = $_SESSION["userID"];
     class Item {

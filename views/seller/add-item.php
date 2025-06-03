@@ -1,5 +1,5 @@
 <?php
-    include("database.php");
+    include("C:/xampp/htdocs/Wearhouse Project/database.php");
     session_start();
     
 ?>
@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form action="" method="post">
         <!-- add labels later -->
         <input name="name" type="text" placeholder="Enter your product's name.">
         <select name="category">
@@ -37,6 +37,10 @@
         $category = $_POST["category"];
         $description = $_POST["description"];
         $price = $_POST["price"];
+        echo $name . "<br>";
+        echo $category . "<br>";
+        echo $description . "<br>";
+        echo $price . "<br>";
         try {
             mysqli_query($conn, "INSERT INTO items (name, category, description, price, userID)
                         VALUES ('$name', '$category', '$description', $price, $id)");
