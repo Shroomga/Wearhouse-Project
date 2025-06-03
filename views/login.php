@@ -13,13 +13,13 @@
             $type = $row["type"];
             $passHash = $row["password"];
             $userID = $row["id"];
-            if(password_verify($password, $passHash)){
-                $loggedIn = true;
-                $_SESSION["userID"] = $userID;
-                $_SESSION["type"] = $type;
-            }else{
-                $loggedIn = false;
-            }
+                if(password_verify($password, $passHash)){
+                    $loggedIn = true;
+                    $_SESSION["userID"] = $userID;
+                    $_SESSION["type"] = $type;
+                }else{
+                    $loggedIn = false;
+                }
             }
             }else{
                 //User was not found
@@ -52,7 +52,7 @@
         <?php if(!empty($error)){ echo "<p>{$error}</p>"; }?>
         <p>Haven't made an account yet? <a href="./register.php">Register</a></p>
         <?php }else{?>
-            <p>Login successful! Continue to <a href="../views/store.html">shop</a></p>
+            <p>Login successful! Continue to <a href="../views/store.php">shop</a></p>
         <?php }?>
     </div>
 </body>
