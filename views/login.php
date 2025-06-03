@@ -1,5 +1,6 @@
 <?php
     include("../database.php");
+    session_start();
     if($_SERVER["REQUEST_METHOD"] == "POST"){
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -11,8 +12,11 @@
             while ($row = mysqli_fetch_assoc($result)) {
             $type = $row["type"];
             $passHash = $row["password"];
+            $userID = $row["id"];
             if(password_verify($password, $passHash)){
                 $loggedIn = true;
+                $_SESSION["userID"] = $userID;
+                $_SESSION["type"] = $type;
             }else{
                 $loggedIn = false;
             }
@@ -21,7 +25,7 @@
                 //User was not found
             }                 
     } catch (mysqli_sql_exception $err) {
-        $error = $err.getSqlState();
+        // $error = $err.getSqlState();
         $loggedIn = false;
     }
     }

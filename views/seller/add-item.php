@@ -1,5 +1,13 @@
 <?php
     include("database.php");
+    session_start();
+    $id = $_SESSION["userID"];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $name = $_POST["name"];
+        $category = $_POST["category"];
+        $description = $_POST["description"];
+        $price = $_POST["price"];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
