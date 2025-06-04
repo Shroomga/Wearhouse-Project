@@ -52,7 +52,7 @@
         <?php if(!empty($error)){ echo "<p>{$error}</p>"; }?>
         <p>Haven't made an account yet? <a href="./register.php">Register</a></p>
         <?php }else{?>
-            <p>Login successful! Continue to <a href="../views/store.php">shop</a></p>
+            <p>Login successful! Continue to <a href="store.php">shop</a></p>
         <?php }?>
     </div>
 </body>

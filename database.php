@@ -2,7 +2,7 @@
     //id, name, price, details, image
     $db_server = "localhost";
     $db_user = "root";
-    $db_pass = "";
+    $db_pass = "Wordpass15";
     $db_name = "wearhousedb";
     $conn = "";
 

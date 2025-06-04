@@ -4,9 +4,9 @@
     if(!empty($_POST["register"])){
         $confirm = $_POST["confirm"];
         
-        header("./views/login.php");
+        header("Location: login.php");
     }
     if(!empty($_POST["login"])){
-        header("./views/store.html");
+        header("Location: store.php");
     }
 ?>
