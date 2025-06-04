@@ -1,7 +1,25 @@
 <?php
-    include("C:/xampp/htdocs/Wearhouse Project/database.php");
+    include("../../database.php");
     session_start();
-    
+    $id = $_SESSION["userID"];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $name = $_POST["name"];
+        $category = $_POST["category"];
+        $description = $_POST["description"];
+        $price = $_POST["price"];
+        echo $name . "<br>";
+        echo $category . "<br>";
+        echo $description . "<br>";
+        echo $price . "<br>";
+        try {
+            mysqli_query($conn, "INSERT INTO items (name, category, description, price, userID)
+                        VALUES ('$name', '$category', '$description', $price, $id)");
+                        //problem with allowing apostrophes inside of field values
+        } catch (mysqli_sql_exception $err) {
+            echo $err;
+            echo "SQL error encountered.";
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,23 +49,5 @@
 
 
 <?php
-    $id = $_SESSION["userID"];
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $name = $_POST["name"];
-        $category = $_POST["category"];
-        $description = $_POST["description"];
-        $price = $_POST["price"];
-        echo $name . "<br>";
-        echo $category . "<br>";
-        echo $description . "<br>";
-        echo $price . "<br>";
-        try {
-            mysqli_query($conn, "INSERT INTO items (name, category, description, price, userID)
-                        VALUES ('$name', '$category', '$description', $price, $id)");
-        } catch (mysqli_sql_exception) {
-            echo "SQL error encountered.";
-        }
-    }
-
     mysqli_close($conn);
 ?>
