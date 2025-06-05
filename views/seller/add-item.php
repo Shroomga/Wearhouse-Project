@@ -11,6 +11,11 @@
         echo $category . "<br>";
         echo $description . "<br>";
         echo $price . "<br>";
+        // if ($quote = strpos($description, "'")){
+        //     $start = substr($description, 0, $quote);
+        //     $end = substr($description, $quote);
+        //     $description = $start . "\\" . $end;
+        // }
         try {
             mysqli_query($conn, "INSERT INTO items (name, category, description, price, userID)
                         VALUES ('$name', '$category', '$description', $price, $id)");
