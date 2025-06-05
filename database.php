@@ -1,14 +1,26 @@
 <?php
-    //id, name, price, details, image
-    $db_server = "localhost";
-    $db_user = "root";
-    $db_pass = "";
-    $db_name = "wearhousedb";
-    $conn = "";
-
-    try {
-        $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
-    } catch (mysqli_sql_exception) {
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_NAME', 'ecommerce_platform');
+    class Database {
+    private $host = DB_HOST;
+    private $user = DB_USER;
+    private $password = DB_PASS;
+    private $database = DB_NAME;
+    private $conn;
+    
+    public function __construct(){
+         try {
+        $this->conn = mysqli_connect($this->host, $this->user, $this->password, $this->database);
+        } catch (mysqli_sql_exception) {
         echo"<p>Could not connect!</p>";
+        }
     }
+    public function getConnection() {
+        return $this->conn;
+    }
+    
+    }
+    $db = new Database();
 ?>
