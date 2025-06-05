@@ -46,8 +46,8 @@ class Database
         $result = $this->query($sql, $params, $types);
         return $result->fetch_assoc(); //returns an array of only the 1 next row
     }
-    // public function lastInsertId() {
-    //     return $this->conn->insert_id;
-    // }
+    public function lastInsertId() {
+        return $this->conn->insert_id;
+    }
 }
 $db = new Database();

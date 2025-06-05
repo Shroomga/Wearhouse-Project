@@ -1,5 +1,6 @@
 <?php
-    include("../database.php");
+    $page_title = 'Login - Wearhouse'; //will be used in the include
+    require_once 'includes/header.php';
     session_start();
     if($_SERVER["REQUEST_METHOD"] == "POST"){
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
