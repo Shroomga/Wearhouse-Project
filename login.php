@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-success btn-lg">
                                 <i class="fas fa-sign-in-alt me-2"></i>Sign In
                             </button>
                         </div>
@@ -158,13 +158,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row text-center">
                         <div class="col-md-4">
                             <strong>Admin</strong><br>
-                            <small>admin@ecommerce.com</small><br>
+                            <small>admin@wearhouse.com</small><br>
                             <small>password</small>
                         </div>
                         <div class="col-md-4">
                             <strong>Seller</strong><br>
                             <small>jane@example.com</small><br>
-                            <small>password</small>
+                            <small>fashionjane</small>
                         </div>
                         <div class="col-md-4">
                             <strong>Buyer</strong><br>

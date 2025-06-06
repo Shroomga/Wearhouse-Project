@@ -15,9 +15,9 @@ $categories = getCategories();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title ?? 'Wearhouse: Wear it Out!'; ?></title>
+    <link href="/assets/css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -80,15 +80,18 @@ $categories = getCategories();
                             <ul class="dropdown-menu">
                                 <?php if ($_SESSION['user_role'] === 'admin') { ?>
                                     <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog me-1"></i>Admin Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="/admin/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } elseif ($_SESSION['user_role'] === 'seller') { ?>
                                     <li><a class="dropdown-item" href="/seller/"><i class="fas fa-store me-1"></i>Seller Dashboard</a></li>
                                     <li><a class="dropdown-item" href="/seller/products.php"><i class="fas fa-boxes me-1"></i>My Products</a></li>
                                     <li><a class="dropdown-item" href="/seller/orders.php"><i class="fas fa-receipt me-1"></i>My Sales</a></li>
+                                    <li><a class="dropdown-item" href="/seller/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } else { ?>
                                     <li><a class="dropdown-item" href="/buyer/"><i class="fas fa-user me-1"></i>My Account</a></li>
                                     <li><a class="dropdown-item" href="/buyer/orders.php"><i class="fas fa-shopping-bag me-1"></i>My Orders</a></li>
+                                    <li><a class="dropdown-item" href="/buyer/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } ?>
-                                <li><a class="dropdown-item" href="/seller/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
+                                
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

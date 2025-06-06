@@ -159,8 +159,8 @@ function getProducts($limit = null, $offset = 0, $category_id = null, $search = 
     //if there's no category selected,show all products.
     //If there is a category, run the below code to find only products from a category.
     if ($category_id) {
-        $sql .= " AND p.category_id = ?";
-        $params[] = $category_id;
+        $sql .= " AND c.parent_id = ? OR c.id = ?";
+        $params = array_merge($params, [$category_id, $category_id]);
     }
 
     if ($search) {
@@ -228,7 +228,7 @@ function getTitle($category_id = null, $search = null, $seller_id = null)
         $params = [$searchTerm, $searchTerm, $searchTerm];
         $result = $db->fetchOne($sql, $params);
         if ($result) {
-            return $title . $result["category_name"] ?? $result[""];
+            return $title . "'{$search}'" ?? null;
         } else {
             return "No items were found for your search.";
         }

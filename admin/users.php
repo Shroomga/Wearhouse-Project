@@ -2,17 +2,6 @@
 require_once '../includes/header.php';
 ?>
 
-<!-- Sidebar -->
-
-<section>
-
-</section>
-
-<!-- Details -->
-
-<section>
-
-</section>
 
 <?php
 require_once '../includes/footer.php';
