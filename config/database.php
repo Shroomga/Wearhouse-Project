@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'ecommerce_platform');
+define('DB_NAME', 'wearhousedb');
 class Database
 {
     private $host = DB_HOST;

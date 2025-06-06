@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="text-center mb-4">
                         <i class="fas fa-tshirt fa-3x text-primary mb-3"></i>
                         <h2 class="card-title">Welcome Back</h2>
-                        <p class="text-muted">Sign in to your FashionHub account</p>
+                        <p class="text-muted">Sign in to your Wearhouse account</p>
                     </div>
 
                     <?php if ($error_message): ?>

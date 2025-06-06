@@ -1,5 +1,5 @@
 <?php
-$page_title = 'Register - FashionHub';
+$page_title = 'Register - Wearhouse';
 require_once 'includes/header.php';
 
 // Redirect if already logged in
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="card-body p-5">
                     <div class="text-center mb-4">
                         <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
-                        <h2 class="card-title">Join FashionHub</h2>
+                        <h2 class="card-title">Join Wearhouse</h2>
                         <p class="text-muted">Create your account and start <?php echo $role === 'seller' ? 'selling' : 'shopping'; ?> today</p>
                     </div>
 

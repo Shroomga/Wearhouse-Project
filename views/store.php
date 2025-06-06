@@ -1,94 +1,36 @@
 <?php
-include("../database.php");
-class Item
-{
-    protected $name;
-    protected $category;
-    protected $description;
-    protected $price;
-
-
-    function __construct($name, $category, $description, $price)
-    {
-        $this->name = $name;
-        $this->category = $category;
-        $this->description = $description;
-        $this->price = $price;
-    }
-    function get_name()
-    {
-        return $this->name;
-    }
-    function get_category()
-    {
-        return $this->category;
-    }
-    function get_description()
-    {
-        return $this->description;
-    }
-    function get_price()
-    {
-        return $this->price;
-    }
-}
-$items = [];
-try {
-    $result = mysqli_query($conn, "SELECT * FROM items");
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $name = $row["name"];
-            $category = $row["category"];
-            $description = $row["description"];
-            $price = $row["price"];
-            $items[] = new Item($name, $category, $description, $price);
-        }
-    }
-} catch (mysqli_sql_exception) {
-    echo "SQL Query error encountered";
-}
+require_once '../includes/functions.php';
+require_once '../includes/header.php';
+$category_id = $_GET["category"] ?? null;
+$search = $_GET["search"] ?? null;
+$seller_id = $_GET["seller_id"] ?? null;
+$products = getProducts(null,null,$category_id,$search,$seller_id);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop | Wearhouse</title>
-    <link rel="stylesheet" href="../public/styles/main.css">
-</head>
-
-<body>
-    <a href="./seller-register.php">Become a seller</a>
-    <div>
-        <div>
-            <button>Category 1</button>
-            <button>Category 2</button>
-            <button>Category 3</button>
-            <button>Category 4</button>
-        </div>
-        <!-- If no category was selected, show all items. 
-        If a category was selected, display those category items. -->
-        <div>
-            <?php foreach ($items as $item) { ?>
-                <div>
-                    <form action="" method="post">
-                        <img src="someimg.png" alt="some image">
-                        <h2 name="name"><?php echo $item->get_name(); ?></h2>
-                        <p name="price"><?php echo $item->get_price(); ?></p>
-                        <p name="description"><?php echo $item->get_description(); ?></p>
-                        <input type="submit" name="add" value="Add to Cart">
-                    </form>
-                    <p><a href="./cart.php">Go to Cart</a></p>
+<section class="banner-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold"><?php echo getTitle($category_id, $search, $seller_id)?></h1>
+                <p class="lead">Get your new fit ready and thrift it out with style!</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="/views/store.php" class="btn btn-light btn-lg">
+                        <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                    </a>
+                    <?php if (!isLoggedIn()){ ?>
+                    <a href="/register.php?role=seller" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-store me-2"></i>Start Selling
+                    </a>
+                    <?php } ?>
                 </div>
-            <?php } ?>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="/assets/images/hero-fashion.svg" alt="Fashion Illustration" class="img-fluid" style="max-height: 400px;">
+            </div>
         </div>
     </div>
-</body>
-
-</html>
+</section>
 
 <?php
-mysqli_close($conn);
+require_once '../includes/footer.php';
 ?>

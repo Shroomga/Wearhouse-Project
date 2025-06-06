@@ -59,7 +59,7 @@ function login($username, $password)
     global $db;
 
     $user = $db->fetchOne(
-        "SELECT * FROM users WHERE (username = ? OR email = ?) AND status = 'active'",
+        "SELECT * FROM users WHERE (username = ? OR email = ?)",
         [$username, $username],
         "ss"
     );
@@ -204,6 +204,26 @@ function getProductById($id)
         [$id],
         'i'
     );
+}
+
+function getTitle($category_id = null, $search = null, $seller_id = null){
+    global $db;
+    $title = "Showing results for ";
+    if($category_id){
+        $result = $db->fetchOne('SELECT * FROM categories WHERE id = ?',[$category_id], 'i');
+        return $title . $result["name"];
+    }
+    if($search){
+        $sql = "SELECT p.name AS product_name, p.description AS product_description, p.brand AS product_brand, c.name as category_name, u.username as seller_username
+            FROM products AS p
+            JOIN categories AS c ON p.category_id = c.id 
+            JOIN users AS u ON p.seller_id = u.id 
+            WHERE p.status = 'active' AND (p.name LIKE ? OR p.description LIKE ? OR p.brand LIKE ?)";
+        $searchTerm = "%{$search}%";
+        $params = [$searchTerm, $searchTerm, $searchTerm];
+        $result = $db->fetchOne($sql, $params);
+        return $title . $result["category_name"] ?? $result[""];
+    }
 }
 
 function addToCart($user_id, $product_id, $quantity = 1)
@@ -351,12 +371,12 @@ function createOrder($buyer_id, $shipping_address, $billing_address, $payment_me
 function getCategories($parent_id = null) {
     global $db;
     
-    $sql = "SELECT * FROM categories WHERE status = 'active'";
+    $sql = "SELECT * FROM categories";
     $params = [];
     
     //If we only want to get main categories, the sql will be concatenated with IS NULL for parent_id 
     if ($parent_id === null) {
-        $sql .= " AND parent_id IS NULL";
+        $sql .= " WHERE parent_id IS NULL";
     } else {
         //otherwise, we'll bring up all the subcategories of a specific main category.
         $sql .= " AND parent_id = ?";
