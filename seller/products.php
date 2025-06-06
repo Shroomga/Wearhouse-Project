@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/header.php';
-$products = getProducts(30);
+$products = getProducts(30, 0, null, null, $_SESSION['user_id']);
+//first 30 products for the user.
 ?>
 
   <div class="row">
