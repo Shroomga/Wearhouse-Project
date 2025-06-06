@@ -27,7 +27,7 @@ class Database
     function query(string $sql, $params = [], ?string $types = null): ?mysqli_result
     {
         $stmt = $this->conn->prepare($sql);
-        //if no types were put in, just bind all parameters as strings.
+        //if no types were put in,  just bind all parameters as strings.
         if (is_null($types)) {
             $stmt->execute($params);
             return $stmt->get_result() ?: null;

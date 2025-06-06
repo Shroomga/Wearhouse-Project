@@ -157,7 +157,12 @@ INSERT INTO users (username, email, password, first_name, last_name, role) VALUE
 ('admin', 'admin@wearhouse.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'System', 'Administrator', 'admin');
 
 -- Create sample buyers
+
+/*passwords are all password*/
 INSERT INTO users (username, email, password, first_name, last_name, phone, address, city, province, zip_code, role) VALUES
 ('buyer_john', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'John', 'Doe', '086 178 7737', '321 Main St', 'Cape Town', 'WC', '8001', 'buyer'),
 ('shopper_alice', 'alice@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Alice', 'Brown', '011 475 4107', '654 Oak Ave', 'Roodepoort', 'GP', '1724', 'buyer'),
 ('customer_bob', 'bob@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Bob', 'Davis', '021 433 1663', '987 Pine St', 'Cape Town', 'WC', '7441', 'buyer'); 
+
+ALTER TABLE products
+ADD size varchar(40);

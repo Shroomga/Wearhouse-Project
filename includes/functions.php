@@ -206,14 +206,19 @@ function getProductById($id)
     );
 }
 
-function getTitle($category_id = null, $search = null, $seller_id = null){
+function getTitle($category_id = null, $search = null, $seller_id = null)
+{
     global $db;
     $title = "Showing results for ";
-    if($category_id){
-        $result = $db->fetchOne('SELECT * FROM categories WHERE id = ?',[$category_id], 'i');
-        return $title . $result["name"];
+    if ($category_id) {
+        $result = $db->fetchOne("SELECT * FROM categories WHERE id = ?", [$category_id], 'i');
+        if ($result) {
+            return $title . $result["name"];
+        } else {
+            return "Category not available.";
+        }
     }
-    if($search){
+    if ($search) {
         $sql = "SELECT p.name AS product_name, p.description AS product_description, p.brand AS product_brand, c.name as category_name, u.username as seller_username
             FROM products AS p
             JOIN categories AS c ON p.category_id = c.id 
@@ -222,8 +227,21 @@ function getTitle($category_id = null, $search = null, $seller_id = null){
         $searchTerm = "%{$search}%";
         $params = [$searchTerm, $searchTerm, $searchTerm];
         $result = $db->fetchOne($sql, $params);
-        return $title . $result["category_name"] ?? $result[""];
+        if ($result) {
+            return $title . $result["category_name"] ?? $result[""];
+        } else {
+            return "No items were found for your search.";
+        }
     }
+    if ($seller_id) {
+        $result = $db->fetchOne('SELECT * FROM users WHERE id = ?', [$seller_id], 'i');
+        if ($result) {
+            return $title . $result["username"];
+        }else{
+            return "Seller was not found.";
+        }
+    }
+    return $title . "All Products.";
 }
 
 function addToCart($user_id, $product_id, $quantity = 1)
@@ -293,8 +311,8 @@ function getCartTotal($user_id)
 
     $result = $db->fetchOne(
         "SELECT SUM(c.quantity * p.price) as total 
-         FROM cart c 
-         JOIN products p ON c.product_id = p.id 
+         FROM cart AS c 
+         JOIN products AS p ON c.product_id = p.id 
          WHERE c.user_id = ? AND p.status = 'active'",
         [$user_id]
     );
@@ -368,12 +386,13 @@ function createOrder($buyer_id, $shipping_address, $billing_address, $payment_me
 
 // Category Functions
 
-function getCategories($parent_id = null) {
+function getCategories($parent_id = null)
+{
     global $db;
-    
+
     $sql = "SELECT * FROM categories";
     $params = [];
-    
+
     //If we only want to get main categories, the sql will be concatenated with IS NULL for parent_id 
     if ($parent_id === null) {
         $sql .= " WHERE parent_id IS NULL";
@@ -382,22 +401,24 @@ function getCategories($parent_id = null) {
         $sql .= " AND parent_id = ?";
         $params[] = $parent_id;
     }
-    
+
     $sql .= " ORDER BY name";
-    
+
     return $db->fetchAll($sql, $params);
 }
 
-function getCategoryById($id) {
+function getCategoryById($id)
+{
     global $db;
-    
+
     return $db->fetchOne("SELECT * FROM categories WHERE id = ?", [$id], "i");
 }
 
 
 // Utility Functions
 
-function sanitizeInput($data) {
+function sanitizeInput($data)
+{
     if (is_array($data)) {
         return array_map('sanitizeInput', $data);
         //runs callback function (this function) on each item of an array, if it is one.
@@ -405,26 +426,31 @@ function sanitizeInput($data) {
     return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
-function formatPrice($price) {
+function formatPrice($price)
+{
     return 'R' . number_format($price, 2, '.', '');
 }
 
-function formatDate($date) {
+function formatDate($date)
+{
     return date('Y M j', strtotime($date));
 }
 
-function formatDateTime($datetime) {
+function formatDateTime($datetime)
+{
     return date('Y M j g:i A', strtotime($datetime));
 }
 
-function showMessage($message, $type = 'info') {
+function showMessage($message, $type = 'info')
+{
     $_SESSION['flash_message'] = [
         'text' => $message,
         'type' => $type
     ];
 }
 
-function getFlashMessage() {
+function getFlashMessage()
+{
     if (isset($_SESSION['flash_message'])) {
         $message = $_SESSION['flash_message'];
         unset($_SESSION['flash_message']);
@@ -433,30 +459,31 @@ function getFlashMessage() {
     return null;
 }
 //default destination folder is uploads/products/
-function uploadImage($file, $destination_folder = 'uploads/products/') {
+function uploadImage($file, $destination_folder = 'uploads/products/')
+{
     if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
         return ['success' => false, 'message' => 'No file uploaded'];
     }
-    
+
     //checks the type of the upload against array of MIME types
     $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!in_array($file['type'], $allowed_types)) {
         return ['success' => false, 'message' => 'Invalid file type'];
-    } 
-    
+    }
+
     $max_size = 5 * 1024 * 1024; // 5MB
     if ($file['size'] > $max_size) {
         return ['success' => false, 'message' => 'File too large'];
     }
-    
+
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $filename = uniqid() . '.' . $extension;
     $filepath = $destination_folder . $filename;
-    
+
     if (!is_dir($destination_folder)) {
         mkdir($destination_folder, 0755, true);
     }
-    
+
     if (move_uploaded_file($file['tmp_name'], $filepath)) {
         return ['success' => true, 'filename' => $filename, 'filepath' => $filepath];
     } else {

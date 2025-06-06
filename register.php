@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'phone' => sanitizeInput($_POST['phone'] ?? ''),
         'address' => sanitizeInput($_POST['address'] ?? ''),
         'city' => sanitizeInput($_POST['city'] ?? ''),
-        'state' => sanitizeInput($_POST['state'] ?? ''),
+        'state' => sanitizeInput($_POST['province'] ?? ''),
         'zip_code' => sanitizeInput($_POST['zip_code'] ?? ''),
         'role' => sanitizeInput($_POST['role'] ?? 'buyer'),
         'terms' => isset($_POST['terms'])
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p class="text-muted">Create your account and start <?php echo $role === 'seller' ? 'selling' : 'shopping'; ?> today</p>
                     </div>
 
-                    <?php if ($success_message): ?>
+                    <?php if ($success_message){ ?>
                         <div class="alert alert-success" role="alert">
                             <i class="fas fa-check-circle me-2"></i>
                             <?php echo htmlspecialchars($success_message); ?>
@@ -107,16 +107,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </a>
                             </div>
                         </div>
-                    <?php endif; ?>
+                    <?php } ?>
 
-                    <?php if ($error_message): ?>
+                    <?php if ($error_message){ ?>
                         <div class="alert alert-danger" role="alert">
                             <i class="fas fa-exclamation-triangle me-2"></i>
                             <?php echo $error_message; ?>
                         </div>
-                    <?php endif; ?>
+                    <?php } ?>
 
-                    <?php if (!$success_message): ?>
+                    <?php if (!$success_message){ ?>
                         <form method="POST" class="needs-validation" novalidate>
 
                             <!-- Role Selection -->
@@ -338,12 +338,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                                <button type="submit" class="btn btn-success btn-lg">
                                     <i class="fas fa-user-plus me-2"></i>Create Account
                                 </button>
                             </div>
                         </form>
-                    <?php endif; ?>
+                    <?php } ?>
 
                     <hr class="my-4">
 
@@ -359,6 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<?php require_once 'includes/footer.php'; ?>
 
 <script>
     // Password confirmation validation
@@ -391,4 +392,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     })();
 </script>
 
-<?php require_once 'includes/footer.php'; ?>
