@@ -1,65 +1,78 @@
 <?php
-    $page_title = 'Login - Wearhouse'; //will be used in the include
-    require_once 'includes/header.php';
-    session_start();
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+$page_title = 'Login - Wearhouse'; //will be used in the include
+require_once 'includes/header.php';
+if (isLoggedIn()) {
+    $redirect = match ($_SESSION['user_role']) {
+        'admin' => '/admin/',
+        'seller' => '/seller/',
+        default => '/'
+    };
+    header("Location: $redirect");
+    exit();
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
     $loggedIn = false;
     try {
         $result = mysqli_query($conn, "SELECT * FROM users
                             WHERE users.username = '$username'");
-        if(mysqli_num_rows($result) > 0){
+        if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-            $type = $row["type"];
-            $passHash = $row["password"];
-            $userID = $row["id"];
-                if(password_verify($password, $passHash)){
+                $type = $row["type"];
+                $passHash = $row["password"];
+                $userID = $row["id"];
+                if (password_verify($password, $passHash)) {
                     $loggedIn = true;
                     $_SESSION["userID"] = $userID;
                     $_SESSION["type"] = $type;
-                }else{
+                } else {
                     $loggedIn = false;
                 }
             }
-            }else{
-                //User was not found
-            }                 
+        } else {
+            //User was not found
+        }
     } catch (mysqli_sql_exception $err) {
         // $error = $err.getSqlState();
         $loggedIn = false;
     }
-    }
+}
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../public/styles/auth.css">
 </head>
+
 <body>
     <div class="container">
-        <?php if(empty($loggedIn)){ ?>
-        <h1>Login</h1>
-        <form action="" method="post">
-            <input type="text" name="username" placeholder="Username">
-            <input type="text" name="password" placeholder="Password">
-            <input type="submit" name="login" value="Login">
-        </form>
-        <?php if(!empty($error)){ echo "<p>{$error}</p>"; }?>
-        <p>Haven't made an account yet? <a href="./register.php">Register</a></p>
-        <?php }else{?>
+        <?php if (empty($loggedIn)) { ?>
+            <h1>Login</h1>
+            <form action="" method="post">
+                <input type="text" name="username" placeholder="Username">
+                <input type="text" name="password" placeholder="Password">
+                <input type="submit" name="login" value="Login">
+            </form>
+            <?php if (!empty($error)) {
+                echo "<p>{$error}</p>";
+            } ?>
+            <p>Haven't made an account yet? <a href="./register.php">Register</a></p>
+        <?php } else { ?>
             <p>Login successful! Continue to <a href="../views/store.php">shop</a></p>
-        <?php }?>
+        <?php } ?>
     </div>
 </body>
+
 </html>
 
 <?php
-    mysqli_close($conn);
-        
+mysqli_close($conn);
+
 ?>
