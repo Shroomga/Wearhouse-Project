@@ -384,6 +384,15 @@ function createOrder($buyer_id, $shipping_address, $billing_address, $payment_me
     }
 }
 
+function getOrders(){
+    global $db;
+    $sql = "SELECT o.*, u.first_name, u.last_name, u.username
+            FROM orders AS o
+            JOIN users AS u ON o.buyer_id = u.id";
+    $result = $db->fetchAll($sql);
+    return $result;
+}
+
 // Category Functions
 
 function getCategories($parent_id = null)

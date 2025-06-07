@@ -15,6 +15,16 @@ body {
     font-weight: 700;
 }
 
+.navbar{
+    background-image: url("../images/home\ background.jpg");
+    background-repeat:repeat-x;
+    object-fit: cover;
+}
+.leather{
+    background-image: url("../images/home\ background.jpg");
+    object-fit: cover;
+}
+
 .navbar-nav .nav-link {
     transition: var(--transition);
     border-radius: var(--border-radius);
@@ -83,11 +93,10 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), #0b5ed7);
-}
+    background: linear-gradient(13deg, black, #7c5023);}
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #0b5ed7, var(--primary-color));
+    background: linear-gradient(13deg, black, #7c5023);
     transform: translateY(-1px);
 }
 
@@ -224,22 +233,6 @@ body {
     border: 1px solid #dee2e6;
 }
 
-/* Rating Stars */
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.star {
-    color: #ffc107;
-    font-size: 1rem;
-}
-
-.star.empty {
-    color: #e9ecef;
-}
-
 /* Shopping Cart */
 .cart-item {
     background-color: white;
@@ -269,14 +262,58 @@ body {
     top: 2rem;
 }
 
+.admin-container{
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.admin-item{
+    margin: 1.5rem;
+    border-color: black;
+    padding: 2rem;
+    border-radius: 3%;
+    border-width: 2px;
+    border-style: solid;
+}
+
+div{
+    background-color: black;
+}
+
+
+.admin-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.admin-item-body .card-title{
+   border-bottom: solid;
+}
+
+.admin-item-body .card-text{
+    margin-top: 10px;
+}
+
+.admin-item-body{
+    text-align:justify;
+    display: block;
+    width: 225px;
+    height: 225px;
+}
+.admin-item-body > h5{
+    text-align: center;
+}
+
 /* Dashboard Styles */
 .dashboard-card {
+    width: 200px;
     background: linear-gradient(135deg, var(--primary-color), #0b5ed7);
     color: white;
     border-radius: var(--border-radius);
-    padding: 2rem;
     text-align: center;
     transition: var(--transition);
+    
 }
 
 .dashboard-card:hover {
