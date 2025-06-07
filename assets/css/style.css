@@ -93,7 +93,8 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(13deg, black, #7c5023);}
+    background: linear-gradient(13deg, black, #7c5023);
+}
 
 .btn-primary:hover {
     background: linear-gradient(13deg, black, #7c5023);
@@ -101,12 +102,12 @@ body {
 }
 
 .btn-outline-primary {
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+    border: 2px solid  #7c5023;
+    color:  #976738;
 }
 
 .btn-outline-primary:hover {
-    background-color: var(--primary-color);
+    background-color:  #7c5023;
     transform: translateY(-1px);
 }
 
