@@ -117,7 +117,7 @@ function register($data)
     // Insert user
     try {
         $db->query(
-            "INSERT INTO users (username, email, password, first_name, last_name, phone, address, city, state, zip_code, role) 
+            "INSERT INTO users (username, email, password, first_name, last_name, phone, address, city, province, zip_code, role) 
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 $data['username'],
@@ -128,7 +128,7 @@ function register($data)
                 $data['phone'] ?? null,
                 $data['address'] ?? null,
                 $data['city'] ?? null,
-                $data['state'] ?? null,
+                $data['province'] ?? null,
                 $data['zip_code'] ?? null,
                 $data['role'] ?? 'buyer'
             ]
@@ -219,7 +219,8 @@ function getTitle($category_id = null, $search = null, $seller_id = null)
         }
     }
     if ($search) {
-        $sql = "SELECT p.name AS product_name, p.description AS product_description, p.brand AS product_brand, c.name as category_name, u.username as seller_username
+        $sql = "SELECT p.name AS product_name, p.description AS product_description, p.brand 
+                AS product_brand, c.name as category_name, u.username as seller_username
             FROM products AS p
             JOIN categories AS c ON p.category_id = c.id 
             JOIN users AS u ON p.seller_id = u.id 
@@ -451,6 +452,14 @@ function formatDateTime($datetime)
 }
 
 function showMessage($message, $type = 'info')
+{
+    $_SESSION['flash_message'] = [
+        'text' => $message,
+        'type' => $type
+    ];
+}
+
+function setFlashMessage($message, $type = 'info')
 {
     $_SESSION['flash_message'] = [
         'text' => $message,

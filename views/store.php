@@ -12,29 +12,21 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <h1 class="display-4 fw-bold"><?php echo getTitle($category_id, $search, $seller_id)?></h1>
-                <p class="lead">Get your new fit ready and thrift it out with style!</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <?php if (!isLoggedIn()){ ?>
-                    <a href="../register.php?role=seller" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-store me-2"></i>Start Selling
-                    </a>
-                    <?php } ?>
-                </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="/assets/images/hero-fashion.svg" alt="Fashion Illustration" class="img-fluid" style="max-height: 400px;">
             </div>
         </div>
     </div>
 </section>
 
-<section class="product-list">
+<section class="product-grid">
 <div class="row">
     <?php foreach ($products as $product) { ?>
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card product-card h-100">
                 <div class="position-relative">
-                    <img src="<?php echo $product['image_url'] ? '/uploads/products/' . $product['image_url'] : '/assets/images/placeholder-product.jpg'; ?>"
+                    <?php //echo var_dump($product['image_url']);?>
+                    <img src="<?php echo  $product['image_url'] ? '/uploads/' . $product['image_url']  :  '/assets/images/placeholder-product.svg'; ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 

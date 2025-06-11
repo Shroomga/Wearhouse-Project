@@ -39,6 +39,7 @@ CREATE TABLE products (
     color VARCHAR(50),
     brand VARCHAR(100),
     image_url VARCHAR(255),
+    size VARCHAR(40),
     status ENUM('active', 'inactive', 'sold') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

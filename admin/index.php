@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/header.php';
+requireRole("admin");
 global $db;
 $users = $db->fetchOne("SELECT COUNT(id) AS NumberOfUsers FROM users");
 $sellers = $db->fetchOne("SELECT COUNT(id) AS NumberOfSellers FROM users WHERE role = 'seller'");
@@ -9,6 +10,7 @@ $orders = $db->fetchOne("SELECT COUNT(id) AS NumberOfOrders FROM Orders");
 ?>
 
 <!-- Data section -->
+
 <section class="data">
     <div class="container">
         <div class="row my-4">

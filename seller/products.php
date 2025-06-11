@@ -1,5 +1,9 @@
 <?php
 require_once '../includes/header.php';
+requireAdminOrSeller();
+if($_SERVER['user_role'] == 'admin'){
+    header("Location: '/admin/products.php'");
+}
 $products = getProducts(30, 0, null, null, $_SESSION['user_id']);
 //first 30 products for the user.
 ?>

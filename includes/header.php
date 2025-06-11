@@ -17,7 +17,7 @@ $categories = getCategories();
     <title><?php echo $page_title ?? 'Wearhouse: Wear it Out!'; ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
 </head>
 
 <body>

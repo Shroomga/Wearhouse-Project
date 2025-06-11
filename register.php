@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'phone' => sanitizeInput($_POST['phone'] ?? ''),
         'address' => sanitizeInput($_POST['address'] ?? ''),
         'city' => sanitizeInput($_POST['city'] ?? ''),
-        'state' => sanitizeInput($_POST['province'] ?? ''),
+        'province' => sanitizeInput($_POST['province'] ?? ''),
         'zip_code' => sanitizeInput($_POST['zip_code'] ?? ''),
         'role' => sanitizeInput($_POST['role'] ?? 'buyer'),
         'terms' => isset($_POST['terms'])
@@ -300,12 +300,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3">
-                                        <label for="state" class="form-label">State</label>
+                                        <label for="province" class="form-label">Province</label>
                                         <input type="text"
                                             class="form-control"
-                                            id="state"
-                                            name="state"
-                                            value="<?php echo htmlspecialchars($userData['state'] ?? ''); ?>">
+                                            id="province"
+                                            name="province"
+                                            value="<?php echo htmlspecialchars($userData['province'] ?? ''); ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -363,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script>
     // Password confirmation validation
-    document.getElementById('confirm_password').addEventListener('input', function() {
+    $("#confirm_password").on('input', function() {
         const password = document.getElementById('password').value;
         const confirmPassword = this.value;
 
@@ -378,7 +378,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     (function() {
         'use strict';
         window.addEventListener('load', function() {
-            var forms = document.getElementsByClassName('needs-validation');
+            var forms = $(".needs-validation");
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {
                     if (form.checkValidity() === false) {
