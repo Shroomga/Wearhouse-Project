@@ -1,11 +1,12 @@
 <?php
 $page_title = 'Login - Wearhouse'; //will be used in the include
-require_once 'includes/header.php';
+require_once 'includes/functions.php';
+require_once 'config/config.php';
 if (isLoggedIn()) {
     $redirect = match ($_SESSION['user_role']) {
-        'admin' => '/admin/',
-        'seller' => '/seller/',
-        default => '/'
+        'admin' => url('admin/index.php'),
+        'seller' => url('seller/index.php'),
+        default => url('index.php')
     };
     header("Location: $redirect");
     exit();
@@ -29,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect based on user role
             $redirect = match ($_SESSION['user_role']) {
-                'admin' => '/admin/',
-                'seller' => '/seller/',
-                default => $_GET['redirect'] ?? '/index.php'
+                'admin' => url('admin/index.php'),
+                'seller' => url('seller/index.php'),
+                default => url('index.php')
             };
 
             showMessage('Welcome back, ' . $_SESSION['first_name'] . '!', 'success');
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
+require_once 'includes/header.php';
 ?>
 
 <div class="container mt-5">
@@ -128,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
 
                     <div class="text-center mt-4">
-                        <a href="/forgot-password.php" class="text-decoration-none">
+                        <a href="<?php echo url('forgot-password.php'); ?>" class="text-decoration-none">
                             <i class="fas fa-key me-1"></i>Forgot your password?
                         </a>
                     </div>
@@ -138,10 +139,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="text-center">
                         <p class="mb-0">Don't have an account?</p>
                         <div class="d-grid gap-2 mt-3">
-                            <a href="/register.php" class="btn btn-outline-primary">
+                            <a href="<?php echo url('register.php'); ?>" class="btn btn-outline-primary">
                                 <i class="fas fa-user-plus me-2"></i>Create Account as Buyer
                             </a>
-                            <a href="/register.php?role=seller" class="btn btn-outline-success">
+                            <a href="<?php echo url('register.php?role=seller'); ?>" class="btn btn-outline-success">
                                 <i class="fas fa-store me-2"></i>Join as Seller
                             </a>
                         </div>

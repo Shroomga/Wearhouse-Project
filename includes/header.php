@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/../config/config.php';
 $current_user = getCurrentUser();
 $cart_count = 0;
 if (isLoggedIn() && $_SESSION['user_role'] !== 'admin') {
@@ -17,14 +18,14 @@ $categories = getCategories();
     <title><?php echo $page_title ?? 'Wearhouse: Wear it Out!'; ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/styles.css" rel="stylesheet">
+    <link href="<?php echo asset('css/styles.css'); ?>" rel="stylesheet">
 </head>
 
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/index.php">
+            <a class="navbar-brand fw-bold" href="<?php echo url('index.php'); ?>">
                 <i class="fas fa-tshirt me-2"></i>Wearhouse
             </a>
 
@@ -35,7 +36,7 @@ $categories = getCategories();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php"><i class="fas fa-home me-1"></i>Home</a>
+                        <a class="nav-link" href="<?php echo url('index.php'); ?>"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -43,67 +44,64 @@ $categories = getCategories();
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?php foreach ($categories as $category) { ?>
-                                <li><a class="dropdown-item" href="/views/store.php?category=<?php echo $category['id']; ?>"><?php echo $category['name'] ?></a></li>
+                                <li><a class="dropdown-item" href="<?php echo url('views/store.php?category=' . $category['id']); ?>"><?php echo $category['name'] ?></a></li>
                             <?php } ?>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/views/store.php"><i class="fas fa-shopping-bag me-1"></i>All Products</a>
+                        <a class="nav-link" href="<?php echo url('views/store.php'); ?>"><i class="fas fa-shopping-bag me-1"></i>All Products</a>
                     </li>
                 </ul>
 
                 <!-- Search Form -->
-                <form class="d-flex me-3" method="GET" action="/views/store.php">
+                <form class="d-flex me-3" method="GET" action="<?php echo url('views/store.php'); ?>">
                     <input class="form-control me-2" type="search" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
                     <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
                 </form>
 
                 <ul class="navbar-nav">
                     <?php if (isLoggedIn()) { ?>
-                        <?php if ($_SESSION['user_role'] !== 'admin') { ?>
-                            <li class="nav-item">
-                                <a class="nav-link position-relative" href='/views/cart.php'>
-                                    <i class="fas fa-shopping-cart me-1"></i>Cart
-                                    <?php if ($cart_count > 0) { ?>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            <?php echo $cart_count; ?>
-                                        </span>
-                                    <?php } ?>
-                                </a>
-                            </li>
-                        <?php } ?>
-
+                        <li class="nav-item">
+                            <?php if ($_SESSION['user_role'] !== 'admin' && $_SESSION['user_role'] !== 'seller') { ?>
+                            <a class="nav-link" href="<?php echo url('views/cart.php'); ?>">
+                                <i class="fas fa-shopping-cart me-1"></i>
+                                <?php if ($cart_count > 0) { ?>
+                                    <span class="badge bg-danger"><?php echo $cart_count; ?></span>
+                                <?php } ?>
+                            </a>
+                            <?php } ?>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($_SESSION['first_name']); ?>
                             </a>
                             <ul class="dropdown-menu">
                                 <?php if ($_SESSION['user_role'] === 'admin') { ?>
-                                    <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog me-1"></i>Admin Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="/admin/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('admin/'); ?>"><i class="fas fa-cog me-1"></i>Admin Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('admin/account.php'); ?>"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } elseif ($_SESSION['user_role'] === 'seller') { ?>
-                                    <li><a class="dropdown-item" href="/seller/"><i class="fas fa-store me-1"></i>Seller Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="/seller/products.php"><i class="fas fa-boxes me-1"></i>My Products</a></li>
-                                    <li><a class="dropdown-item" href="/seller/orders.php"><i class="fas fa-receipt me-1"></i>My Sales</a></li>
-                                    <li><a class="dropdown-item" href="/seller/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('seller/'); ?>"><i class="fas fa-store me-1"></i>Seller Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('seller/products.php'); ?>"><i class="fas fa-boxes me-1"></i>My Products</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('seller/orders.php'); ?>"><i class="fas fa-receipt me-1"></i>My Sales</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('seller/account.php'); ?>"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } else { ?>
-                                    <li><a class="dropdown-item" href="/buyer/"><i class="fas fa-user me-1"></i>My Account</a></li>
-                                    <li><a class="dropdown-item" href="/buyer/orders.php"><i class="fas fa-shopping-bag me-1"></i>My Orders</a></li>
-                                    <li><a class="dropdown-item" href="/buyer/account.php"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('buyer/'); ?>"><i class="fas fa-user me-1"></i>My Account</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('buyer/orders.php'); ?>"><i class="fas fa-shopping-bag me-1"></i>My Orders</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('buyer/account.php'); ?>"><i class="fas fa-edit me-1"></i>Edit Profile</a></li>
                                 <?php } ?>
                                 
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="/logout.php"><i class="fas fa-sign-out-alt me-1"></i>Logout</a></li>
+                                <li><a class="dropdown-item" href="<?php echo url('logout.php'); ?>"><i class="fas fa-sign-out-alt me-1"></i>Logout</a></li>
                             </ul>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login.php"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+                            <a class="nav-link" href="<?php echo url('login.php'); ?>"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/register.php"><i class="fas fa-user-plus me-1"></i>Register</a>
+                            <a class="nav-link" href="<?php echo url('register.php'); ?>"><i class="fas fa-user-plus me-1"></i>Register</a>
                         </li>
                     <?php } ?>
                 </ul>

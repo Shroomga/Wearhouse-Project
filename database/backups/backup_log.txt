@@ -1,3 +1,5 @@
 2025-06-14 21:04:37 - Backup failed - File: wearhousedb_2025-06-14_21-04-37.sql
 2025-06-14 21:08:02 - Attempting backup with command: "C:\xampp\mysql\bin\mysqldump.exe" --host="localhost" --user="root" --password="" "wearhousedb" > "C:\xampp\htdocs\Wearhouse Project\database/backups/wearhousedb_2025-06-14_21-08-02.sql" 2>&1
 2025-06-14 21:08:02 - Backup successful - File: wearhousedb_2025-06-14_21-08-02.sql - Return code: 0
+2025-06-15 19:13:13 - Attempting backup with command: "C:\xampp\mysql\bin\mysqldump.exe" --host="localhost" --user="root" --password="" "wearhousedb" > "C:\xampp\htdocs\Wearhouse Project\database/backups/wearhousedb_2025-06-15_19-13-13.sql" 2>&1
+2025-06-15 19:13:13 - Backup successful - File: wearhousedb_2025-06-15_19-13-13.sql - Return code: 0

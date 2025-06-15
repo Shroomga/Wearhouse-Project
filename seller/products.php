@@ -1,8 +1,9 @@
 <?php
 require_once '../includes/header.php';
+require_once '../includes/functions.php';
 requireAdminOrSeller();
-if($_SERVER['user_role'] == 'admin'){
-    header("Location: '/admin/products.php'");
+if($_SESSION['user_role'] == 'admin'){
+    header("Location: " . url('admin/products.php'));
 }
 $products = getProducts(30, 0, null, null, $_SESSION['user_id']);
 //first 30 products for the user.
@@ -47,7 +48,7 @@ $products = getProducts(30, 0, null, null, $_SESSION['user_id']);
                         </div>
 
                         <div class="d-grid gap-2">
-                            <a href="/product.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-primary btn-sm">
+                            <a href="<?php echo url('product.php?id=' . $product['id']); ?>" class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-eye me-1"></i>View Details
                             </a>
                             <?php if (isLoggedIn() && $_SESSION['user_role'] === 'buyer' && $product['stock_quantity'] > 0) { ?>
@@ -56,7 +57,7 @@ $products = getProducts(30, 0, null, null, $_SESSION['user_id']);
                                     <i class="fas fa-cart-plus me-1"></i>Add to Cart
                                 </button>
                             <?php } elseif (!isLoggedIn()) { ?>
-                                <a href="./login.php" class="btn btn-primary btn-sm">
+                                <a href="<?php echo url("login.php")?>" class="btn btn-primary btn-sm">
                                     <i class="fas fa-sign-in-alt me-1"></i>Login to Buy
                                 </a>
                             <?php } ?>

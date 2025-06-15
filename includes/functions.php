@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Start session if not already started
 if (session_status() == PHP_SESSION_NONE) {
@@ -15,7 +16,7 @@ function isLoggedIn()
 function requireLogin()
 {
     if (!isLoggedIn()) {
-        header('Location: /login.php');
+        header('Location: ' . url('login.php'));
         exit();
     }
 }
@@ -26,7 +27,7 @@ function requireRole($role)
 {
     requireLogin();
     if ($_SESSION['user_role'] !== $role) {
-        header('Location: /unauthorized.php');
+        header('Location: ' . url('unauthorized.php'));
         exit();
     }
 }
@@ -35,7 +36,7 @@ function requireAdminOrSeller()
 {
     requireLogin();
     if (!in_array($_SESSION['user_role'], ['admin', 'seller'])) {
-        header('Location: /unauthorized.php');
+        header('Location: ' . url('unauthorized.php'));
         exit();
     }
 }
@@ -84,7 +85,7 @@ function logout()
     // }
 
     session_destroy();
-    header('Location: /login.php');
+    header('Location: ' . url('login.php'));
     exit();
 }
 
@@ -143,12 +144,20 @@ function register($data)
     }
 }
 
+function getSellerStats(){
+    global $db;
+    $sql = "SELECT COUNT(DISTINCT orders.buyer_id) AS NumberOfCustomers, COUNT(DISTINCT orders.id) AS NumberOfOrders
+            FROM order_items JOIN orders ON order_items.order_id = orders.id 
+            WHERE order_items.seller_id = ?";
+    return $db->fetchOne($sql, [$_SESSION['user_id']], 'i');
+}
+
 // Product Functions
 
 function getProducts($limit = null, $offset = 0, $category_id = null, $search = null, $seller_id = null)
 {
     global $db;
-
+                                                                                                                                                                                                
     $sql = "SELECT p.*, c.name as category_name, u.username as seller_username, u.first_name as seller_first_name, u.last_name as seller_last_name
             FROM products AS p
             JOIN categories AS c ON p.category_id = c.id 

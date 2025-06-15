@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2025 at 08:55 PM
+-- Generation Time: Jun 15, 2025 at 07:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -133,9 +133,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `buyer_id`, `total_price`, `shipping_address`, `payment_method`, `order_status`, `payment_status`, `order_date`, `shipped_date`, `delivered_date`) VALUES
-(1, 5, 2789.64, '21 Adderley St, Cape Town, 8001', 'Credit Card', 'delivered', 'paid', '2024-01-15 08:30:00', NULL, NULL),
-(2, 6, 1619.82, '55 Loop St, Cape Town, 8001', 'PayPal', 'shipped', 'paid', '2024-01-18 12:20:00', NULL, NULL),
-(3, 7, 4499.64, '101 Florida Rd, Durban, 4001', 'Credit Card', 'processing', 'paid', '2024-01-20 07:45:00', NULL, NULL),
+(1, 5, 2789.64, '21 Adderley St, Cape Town, 8001', 'Credit Card', 'delivered', 'paid', '2024-01-15 08:30:00', '2025-06-15 17:07:03', NULL),
+(2, 6, 1619.82, '55 Loop St, Cape Town, 8001', 'PayPal', 'delivered', 'paid', '2024-01-18 12:20:00', '2025-06-15 17:07:03', NULL),
+(3, 7, 4499.64, '101 Florida Rd, Durban, 4001', 'Credit Card', 'confirmed', 'paid', '2024-01-20 07:45:00', NULL, NULL),
 (4, 5, 1439.82, '21 Adderley St, Cape Town, 8001', 'Credit Card', 'confirmed', 'paid', '2024-01-22 14:15:00', NULL, NULL),
 (5, 6, 5759.46, '55 Loop St, Cape Town, 8001', 'Credit Card', 'pending', 'pending', '2024-01-23 09:00:00', NULL, NULL);
 
@@ -152,24 +152,26 @@ CREATE TABLE `order_items` (
   `seller_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
   `price` decimal(10,2) NOT NULL,
-  `total` decimal(10,2) NOT NULL
+  `total` decimal(10,2) NOT NULL,
+  `order_status` enum('pending','confirmed','shipped') DEFAULT 'pending',
+  `shipped_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `seller_id`, `quantity`, `price`, `total`) VALUES
-(1, 1, 1, 1, 1, 1619.82, 1619.82),
-(2, 1, 9, 2, 1, 1079.82, 1079.82),
-(3, 1, 2, 2, 1, 449.82, 449.82),
-(4, 2, 1, 1, 1, 1619.82, 1619.82),
-(5, 3, 3, 2, 1, 5399.82, 5399.82),
-(6, 3, 10, 3, 1, 2699.82, 2699.82),
-(7, 4, 5, 2, 1, 1439.82, 1439.82),
-(8, 5, 13, 2, 1, 3419.82, 3419.82),
-(9, 5, 15, 2, 1, 3599.82, 3599.82),
-(10, 5, 8, 4, 1, 2339.82, 2339.82);
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `seller_id`, `quantity`, `price`, `total`, `order_status`, `shipped_date`) VALUES
+(1, 1, 1, 1, 1, 1619.82, 1619.82, 'shipped', '2025-06-15 17:07:03'),
+(2, 1, 9, 2, 1, 1079.82, 1079.82, 'shipped', '2025-06-15 17:07:03'),
+(3, 1, 2, 2, 1, 449.82, 449.82, 'shipped', '2025-06-15 17:07:03'),
+(4, 2, 1, 1, 1, 1619.82, 1619.82, 'shipped', '2025-06-15 17:07:03'),
+(5, 3, 3, 2, 1, 5399.82, 5399.82, 'confirmed', NULL),
+(6, 3, 10, 3, 1, 2699.82, 2699.82, 'confirmed', NULL),
+(7, 4, 5, 2, 1, 1439.82, 1439.82, 'confirmed', NULL),
+(8, 5, 13, 2, 1, 3419.82, 3419.82, 'pending', NULL),
+(9, 5, 15, 2, 1, 3599.82, 3599.82, 'pending', NULL),
+(10, 5, 8, 4, 1, 2339.82, 2339.82, 'pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -199,22 +201,22 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `seller_id`, `category_id`, `name`, `description`, `price`, `stock_quantity`, `color`, `brand`, `image_url`, `size`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 6, 'Classic Blue Denim Jeans', 'High-quality men\'s denim jeans with classic fit', 89.99, 15, 'Blue', 'Levi\'s', 'images/products/mens-jeans-1.jpg', '32W x 34L', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(2, 2, 6, 'Vintage Cotton T-Shirt', 'Comfortable vintage-style cotton t-shirt', 24.99, 25, 'White', 'Hanes', 'images/products/mens-tshirt-1.jpg', 'L', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(3, 3, 8, 'Leather Bomber Jacket', 'Genuine leather bomber jacket for men', 299.99, 5, 'Black', 'Calvin Klein', 'images/products/mens-jacket-1.jpg', 'M', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(4, 2, 6, 'Slim Fit Chinos', 'Modern slim fit chino pants', 65.99, 20, 'Khaki', 'Dockers', 'images/products/mens-chinos-1.jpg', '30W x 32L', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(5, 3, 9, 'Floral Summer Dress', 'Beautiful floral print summer dress', 79.99, 12, 'Pink', 'Zara', 'images/products/womens-dress-1.jpg', 'M', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(6, 4, 10, 'Silk Blouse', 'Elegant silk blouse for professional wear', 89.99, 8, 'Cream', 'Express', 'images/products/womens-blouse-1.jpg', 'S', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(7, 3, 11, 'High-Waisted Jeans', 'Trendy high-waisted skinny jeans', 69.99, 18, 'Dark Blue', 'American Eagle', 'images/products/womens-jeans-1.jpg', '28W x 30L', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(8, 4, 9, 'Little Black Dress', 'Classic little black dress for evening wear', 129.99, 6, 'Black', 'Ann Taylor', 'images/products/womens-dress-2.jpg', 'L', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(9, 2, 12, 'White Canvas Sneakers', 'Classic white canvas sneakers', 59.99, 30, 'White', 'Converse', 'images/products/sneakers-1.jpg', '9', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(10, 3, 13, 'Oxford Dress Shoes', 'Men\'s leather oxford dress shoes', 149.99, 10, 'Brown', 'Cole Haan', 'images/products/dress-shoes-1.jpg', '10', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(11, 4, 14, 'Ankle Boots', 'Women\'s leather ankle boots', 119.99, 15, 'Black', 'Steve Madden', 'images/products/ankle-boots-1.jpg', '8', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(12, 2, 12, 'Running Sneakers', 'Performance running sneakers', 129.99, 22, 'Blue', 'Nike', 'images/products/running-shoes-1.jpg', '9.5', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(13, 3, 15, 'Leather Handbag', 'Genuine leather handbag with multiple compartments', 189.99, 7, 'Brown', 'Coach', 'images/products/handbag-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(14, 4, 16, 'Silver Necklace', 'Sterling silver chain necklace', 45.99, 20, 'Silver', 'Pandora', 'images/products/necklace-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(15, 2, 17, 'Digital Watch', 'Modern digital sports watch', 199.99, 12, 'Black', 'Casio', 'images/products/watch-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53'),
-(16, 3, 15, 'Canvas Backpack', 'Durable canvas backpack for daily use', 49.99, 25, 'Navy', 'Jansport', 'images/products/backpack-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-14 11:37:53');
+(1, 1, 6, 'Classic Blue Denim Jeans', 'High-quality men\'s denim jeans with classic fit', 89.99, 15, 'Blue', 'Levi\'s', 'images/products/mens-jeans-1.jpg', '32W x 34L', 'active', '2025-06-14 11:37:53', '2025-06-15 06:17:53'),
+(2, 1, 6, 'Vintage Cotton T-Shirt', 'Comfortable vintage-style cotton t-shirt', 24.99, 25, 'White', 'Hanes', 'images/products/mens-tshirt-1.jpg', 'L', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:05'),
+(3, 2, 8, 'Leather Bomber Jacket', 'Genuine leather bomber jacket for men', 299.99, 5, 'Black', 'Calvin Klein', 'images/products/mens-jacket-1.jpg', 'M', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:11'),
+(4, 1, 6, 'Slim Fit Chinos', 'Modern slim fit chino pants', 65.99, 20, 'Khaki', 'Dockers', 'images/products/mens-chinos-1.jpg', '30W x 32L', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:14'),
+(5, 2, 9, 'Floral Summer Dress', 'Beautiful floral print summer dress', 79.99, 12, 'Pink', 'Zara', 'images/products/womens-dress-1.jpg', 'M', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:17'),
+(6, 3, 10, 'Silk Blouse', 'Elegant silk blouse for professional wear', 89.99, 8, 'Cream', 'Express', 'images/products/womens-blouse-1.jpg', 'S', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:22'),
+(7, 2, 11, 'High-Waisted Jeans', 'Trendy high-waisted skinny jeans', 69.99, 18, 'Dark Blue', 'American Eagle', 'images/products/womens-jeans-1.jpg', '28W x 30L', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:27'),
+(8, 3, 9, 'Little Black Dress', 'Classic little black dress for evening wear', 129.99, 6, 'Black', 'Ann Taylor', 'images/products/womens-dress-2.jpg', 'L', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:30'),
+(9, 1, 12, 'White Canvas Sneakers', 'Classic white canvas sneakers', 59.99, 30, 'White', 'Converse', 'images/products/sneakers-1.jpg', '9', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:36'),
+(10, 2, 13, 'Oxford Dress Shoes', 'Men\'s leather oxford dress shoes', 149.99, 10, 'Brown', 'Cole Haan', 'images/products/dress-shoes-1.jpg', '10', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:39'),
+(11, 3, 14, 'Ankle Boots', 'Women\'s leather ankle boots', 119.99, 15, 'Black', 'Steve Madden', 'images/products/ankle-boots-1.jpg', '8', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:43'),
+(12, 1, 12, 'Running Sneakers', 'Performance running sneakers', 129.99, 22, 'Blue', 'Nike', 'images/products/running-shoes-1.jpg', '9.5', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:47'),
+(13, 2, 15, 'Leather Handbag', 'Genuine leather handbag with multiple compartments', 189.99, 7, 'Brown', 'Coach', 'images/products/handbag-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:50'),
+(14, 3, 16, 'Silver Necklace', 'Sterling silver chain necklace', 45.99, 20, 'Silver', 'Pandora', 'images/products/necklace-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:54'),
+(15, 1, 17, 'Digital Watch', 'Modern digital sports watch', 199.99, 12, 'Black', 'Casio', 'images/products/watch-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-15 06:18:57'),
+(16, 2, 15, 'Canvas Backpack', 'Durable canvas backpack for daily use', 49.99, 25, 'Navy', 'Jansport', 'images/products/backpack-1.jpg', 'One Size', 'active', '2025-06-14 11:37:53', '2025-06-15 06:19:01');
 
 -- --------------------------------------------------------
 

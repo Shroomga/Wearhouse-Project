@@ -26,7 +26,7 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
             <div class="card product-card h-100">
                 <div class="position-relative">
                     <?php //echo var_dump($product['image_url']);?>
-                    <img src="<?php echo $product['image_url'] ? '/uploads/' . $product['image_url'] : '/assets/images/placeholder-product.svg'; ?>"
+                    <img src="<?php echo $product['image_url'] ? asset('uploads/' . $product['image_url']) : asset('images/placeholder-product.svg'); ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 
@@ -60,7 +60,7 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
                         </div>
 
                         <div class="d-grid gap-2">
-                            <a href="/product.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-primary btn-sm">
+                            <a href="<?php echo url("product.php?id=" . $product['id']) ?>" class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-eye me-1"></i>View Details
                             </a>
                             <?php if (isLoggedIn() && $_SESSION['user_role'] === 'buyer' && $product['stock_quantity'] > 0) { ?>
@@ -69,7 +69,7 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
                                     <i class="fas fa-cart-plus me-1"></i>Add to Cart
                                 </button>
                             <?php } elseif (!isLoggedIn()) { ?>
-                                <a href="./login.php" class="btn btn-primary btn-sm">
+                                <a href="<?php echo url("login.php") ?>" class="btn btn-primary btn-sm">
                                     <i class="fas fa-sign-in-alt me-1"></i>Login to Buy
                                 </a>
                             <?php } ?>

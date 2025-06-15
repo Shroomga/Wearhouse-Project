@@ -15,7 +15,7 @@ $seller = $db->fetchOne(
 <div class="container">
     <div class="row">
         <div class="col">
-            <img src="<?php echo $product['image_url'] ? '/uploads/' . $product['image_url'] : '/assets/images/placeholder-product.svg'; ?>" class="product-detail-img">
+            <img src="<?php echo $product['image_url'] ? asset('uploads/' . $product['image_url']) : asset('images/placeholder-product.svg'); ?>" class="product-detail-img">
         </div>
         <div class="col">
             <div class="container">
@@ -29,6 +29,16 @@ $seller = $db->fetchOne(
                 <h2><?php echo formatPrice($product['price']) ?></h2>
                 <p>Available in: <?php echo $product['color'] ?></p>
                 <p>Size: <?php echo $product['size'] ?></p>
+                <?php if (isLoggedIn() && $_SESSION['user_role'] === 'buyer' && $product['stock_quantity'] > 0) { ?>
+                    <button class="btn btn-primary btn-sm add-to-cart-btn"
+                        data-product-id="<?php echo $product['id']; ?>">
+                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                    </button>
+                <?php } elseif (!isLoggedIn()) { ?>
+                    <a href="<?php echo url("login.php") ?>" class="btn btn-primary btn-sm">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login to Buy
+                    </a>
+                <?php } ?>
             </div>
         </div>
     </div>

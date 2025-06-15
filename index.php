@@ -16,18 +16,18 @@ $categories = getCategories();
                 <h1 class="display-4 fw-bold">Welcome to Wearhouse</h1>
                 <p class="lead">Get your new fit ready and thrift it out with style!</p>
                 <div class="d-flex gap-3 flex-wrap">
-                    <a href="/views/store.php" class="btn btn-light btn-lg">
+                    <a href="<?php echo url('views/store.php'); ?>" class="btn btn-light btn-lg">
                         <i class="fas fa-shopping-bag me-2"></i>Shop Now
                     </a>
                     <?php if (!isLoggedIn()){ ?>
-                    <a href="/register.php?role=seller" class="btn btn-outline-light btn-lg">
+                    <a href="<?php echo url('register.php?role=seller'); ?>" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-store me-2"></i>Start Selling
                     </a>
                     <?php } ?>
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="/assets/images/hero-fashion.svg" alt="Fashion Illustration" class="img-fluid" style="max-height: 400px;">
+                <img src="<?php echo asset('images/hero-fashion.svg'); ?>" alt="Fashion Illustration" class="img-fluid" style="max-height: 400px;">
             </div>
         </div>
     </div>
@@ -82,7 +82,7 @@ $categories = getCategories();
         <div class="row">
             <?php foreach ($categories as $category){ ?>
             <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                <a href="/views/store.php?category=<?php echo $category['id']; ?>" class="text-decoration-none">
+                <a href="<?php echo url('views/store.php?category=' . $category['id']); ?>" class="text-decoration-none">
                     <div class="card h-100 category-card">
                         <div class="card-body text-center p-4">
                             <div class="category-icon mb-3">

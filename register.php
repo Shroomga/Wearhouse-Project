@@ -4,7 +4,7 @@ require_once 'includes/header.php';
 
 // Redirect if already logged in
 if (isLoggedIn()) {
-    header('Location: /');
+    header('Location: ' . url('index.php'));
     exit();
 }
 
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php echo htmlspecialchars($success_message); ?>
                             <hr>
                             <div class="text-center">
-                                <a href="/login.php" class="btn btn-success">
+                                <a href="<?php echo url('login.php'); ?>" class="btn btn-success">
                                     <i class="fas fa-sign-in-alt me-2"></i>Sign In Now
                                 </a>
                             </div>
