@@ -20,13 +20,13 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
 </section>
 
 <section class="product-grid">
-<div class="row">
+<div class="row">   
     <?php foreach ($products as $product) { ?>
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card product-card h-100">
                 <div class="position-relative">
                     <?php //echo var_dump($product['image_url']);?>
-                    <img src="<?php echo  $product['image_url'] ? '/uploads/' . $product['image_url']  :  '/assets/images/placeholder-product.svg'; ?>"
+                    <img src="<?php echo $product['image_url'] ? '/uploads/' . $product['image_url'] : '/assets/images/placeholder-product.svg'; ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 

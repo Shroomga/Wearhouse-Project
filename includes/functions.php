@@ -323,6 +323,11 @@ function getCartTotal($user_id)
     //else, output 0
 }
 
+function updateCartQuantity($user_id, $product_id, $quantity) {
+    global $db;
+    $db->query("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?", [$quantity, $user_id, $product_id], 'iii');
+}
+
 // Order Functions
 
 function createOrder($buyer_id, $shipping_address, $billing_address, $payment_method)

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Wearhouse</title>
-    <link rel="stylesheet" href="../public/styles/main.css">
+    <link href="/assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
     <h1>
@@ -21,6 +21,6 @@
         <button type="submit">Pay with cash</button>
         <button type="submit">Pay with card</button>
     </div>
-    <a href="./cart.html">Return to Cart</a>
+    <a href="./cart.php">Return to Cart</a>
 </body>
 </html>

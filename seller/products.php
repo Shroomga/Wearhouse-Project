@@ -13,7 +13,7 @@ $products = getProducts(30, 0, null, null, $_SESSION['user_id']);
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card product-card h-100">
                 <div class="position-relative">
-                    <img src="<?php echo $product['image_url'] ? '/uploads/products/' . $product['image_url'] : '/assets/images/placeholder-product.jpg'; ?>"
+                    <img src="<?php echo $product['image_url'] ? '/uploads/' . $product['image_url'] : '/assets/images/placeholder-product.svg'; ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 

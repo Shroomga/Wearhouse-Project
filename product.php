@@ -15,7 +15,7 @@ $seller = $db->fetchOne(
 <div class="container">
     <div class="row">
         <div class="col">
-            <img src="<?php echo  $product['image_url'] ? '/uploads/' . $product['image_url']  :  '/assets/images/placeholder-product.svg'; ?>" class="product-detail-img">
+            <img src="<?php echo $product['image_url'] ? '/uploads/' . $product['image_url'] : '/assets/images/placeholder-product.svg'; ?>" class="product-detail-img">
         </div>
         <div class="col">
             <div class="container">

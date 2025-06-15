@@ -1,12 +1,15 @@
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--dark-color);
-    background-color: #ffffff;
+    background-color: #C5C9F0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+h1 {
+    margin: 0px;
 }
 
 /* Navigation Styles */
@@ -15,14 +18,33 @@ body {
     font-weight: 700;
 }
 
-.navbar{
-    background-image: url("../images/home\ background.jpg");
-    background-repeat:repeat-x;
+.navbar {
+    background-color: rgb(222, 171, 43);
+    background-image: url("../images/home background.jpg");
+    background-repeat: repeat-x;
     object-fit: cover;
 }
-.leather{
-    background-image: url("../images/home\ background.jpg");
-    object-fit: cover;
+
+.home-page {
+    background-image: url("../images/home background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.home-banner {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-brand {
+    color: #C5C9F0;
+}
+
+button {
+    background-color: #D4F0C5;
+    border-style: none;
 }
 
 .navbar-nav .nav-link {
