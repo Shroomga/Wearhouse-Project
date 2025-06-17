@@ -144,12 +144,27 @@ function register($data)
     }
 }
 
-function getSellerStats(){
+function getSellerStats()
+{
     global $db;
     $sql = "SELECT COUNT(DISTINCT orders.buyer_id) AS NumberOfCustomers, COUNT(DISTINCT orders.id) AS NumberOfOrders
             FROM order_items JOIN orders ON order_items.order_id = orders.id 
             WHERE order_items.seller_id = ?";
     return $db->fetchOne($sql, [$_SESSION['user_id']], 'i');
+}
+function getAdminStats()
+{
+    global $db;
+    $users = $db->fetchOne("SELECT COUNT(id) AS NumberOfUsers FROM users");
+    $sellers = $db->fetchOne("SELECT COUNT(id) AS NumberOfSellers FROM users WHERE role = 'seller'");
+    $products = $db->fetchOne("SELECT COUNT(id) AS NumberOfProducts FROM Products");
+    $orders = $db->fetchOne("SELECT COUNT(id) AS NumberOfOrders FROM Orders");
+    return [
+        'NumberOfUsers' => $users['NumberOfUsers'],
+        'NumberOfSellers' => $sellers['NumberOfSellers'],
+        'NumberOfProducts' => $products['NumberOfProducts'],
+        'NumberOfOrders' => $orders['NumberOfOrders']
+    ];
 }
 
 // Product Functions
@@ -157,7 +172,7 @@ function getSellerStats(){
 function getProducts($limit = null, $offset = 0, $category_id = null, $search = null, $seller_id = null)
 {
     global $db;
-                                                                                                                                                                                                
+
     $sql = "SELECT p.*, c.name as category_name, u.username as seller_username, u.first_name as seller_first_name, u.last_name as seller_last_name
             FROM products AS p
             JOIN categories AS c ON p.category_id = c.id 
@@ -247,7 +262,7 @@ function getTitle($category_id = null, $search = null, $seller_id = null)
         $result = $db->fetchOne('SELECT * FROM users WHERE id = ?', [$seller_id], 'i');
         if ($result) {
             return $title . $result["username"];
-        }else{
+        } else {
             return "Seller was not found.";
         }
     }
@@ -293,7 +308,7 @@ function getCartItems($user_id)
     global $db;
 
     return $db->fetchAll(
-        "SELECT c.*, p.name, p.price, p.image_url, p.stock_quantity, u.username AS seller_username
+        "SELECT c.*, p.name, p.seller_id, p.price, p.image_url, p.stock_quantity, u.username AS seller_username
          FROM cart AS c 
          JOIN products AS p ON c.product_id = p.id 
          JOIN users AS u ON p.seller_id = u.id 
@@ -332,7 +347,8 @@ function getCartTotal($user_id)
     //else, output 0
 }
 
-function updateCartQuantity($user_id, $product_id, $quantity) {
+function updateCartQuantity($user_id, $product_id, $quantity)
+{
     global $db;
     $db->query("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?", [$quantity, $user_id, $product_id], 'iii');
 }
@@ -359,7 +375,7 @@ function createOrder($buyer_id, $shipping_address, $billing_address, $payment_me
 
         // Create order
         $db->query(
-            "INSERT INTO orders (buyer_id, total_amount, shipping_address, payment_method) 
+            "INSERT INTO orders (buyer_id, total_price, shipping_address, payment_method) 
              VALUES (?, ?, ?, ?)",
             [$buyer_id, $total, $shipping_address, $payment_method],
             'idss'
@@ -399,7 +415,8 @@ function createOrder($buyer_id, $shipping_address, $billing_address, $payment_me
     }
 }
 
-function getOrders(){
+function getOrders()
+{
     global $db;
     $sql = "SELECT o.*, u.first_name, u.last_name, u.username
             FROM orders AS o
@@ -410,23 +427,28 @@ function getOrders(){
 
 // Category Functions
 
-function getCategories($parent_id = null)
+function getCategories($mode = null, $parent_id = null)
 {
     global $db;
 
     $sql = "SELECT * FROM categories";
     $params = [];
 
-    //If we only want to get main categories, the sql will be concatenated with IS NULL for parent_id 
-    if ($parent_id === null) {
-        $sql .= " WHERE parent_id IS NULL";
-    } else {
-        //otherwise, we'll bring up all the subcategories of a specific main category.
-        $sql .= " AND parent_id = ?";
+    if ($mode === 'sub' && $parent_id !== null) {
+        // Get subcategories of a specific main category
+        $sql .= " WHERE parent_id = ?";
         $params[] = $parent_id;
+        $sql .= " ORDER BY name";
+    } elseif ($mode === 'all') {
+        // Get all categories
+        $sql .= " ORDER BY name";
+    } else {
+        // Default: Get only main categories
+        $sql .= " WHERE parent_id IS NULL";
+        $sql .= " ORDER BY name";
     }
 
-    $sql .= " ORDER BY name";
+
 
     return $db->fetchAll($sql, $params);
 }
@@ -491,7 +513,7 @@ function getFlashMessage()
     return null;
 }
 //default destination folder is uploads/products/
-function uploadImage($file, $destination_folder = 'uploads/products/')
+function uploadImage($file, $destination_folder = '/uploads/images/products/')
 {
     if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
         return ['success' => false, 'message' => 'No file uploaded'];
@@ -521,4 +543,23 @@ function uploadImage($file, $destination_folder = 'uploads/products/')
     } else {
         return ['success' => false, 'message' => 'Failed to upload file'];
     }
+}
+
+function deleteProduct($product_id)
+{
+    global $db;
+    // Only delete if the product belongs to the current seller
+    $product = $db->fetchOne("SELECT * FROM products WHERE id = ?", [$product_id], 'i');
+    if ($product && $product['seller_id'] == $_SESSION['user_id']) {
+        // Optionally, delete the product image file from the server
+        if (!empty($product['image_url'])) {
+            $image_path = __DIR__ . '/../uploads/' . $product['image_url'];
+            if (file_exists($image_path)) {
+                @unlink($image_path);
+            }
+        }
+        $db->query("DELETE FROM products WHERE id = ?", [$product_id], 'i');
+        return true;
+    }
+    return false;
 }

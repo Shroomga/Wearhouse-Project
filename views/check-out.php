@@ -1,6 +1,5 @@
 <?php
 require_once '../includes/functions.php';
-require_once '../includes/header.php';
 requireRole('buyer'); // Only buyers should access checkout
 
 // Get cart items
@@ -18,23 +17,26 @@ foreach ($cart_items as $item) {
 }
 $commission = $subtotal * $commission_rate;
 $total = $subtotal + $commission;
+$user = $db->fetchOne("SELECT * FROM users WHERE id = ?", [$_SESSION['user_id']], 'i');
 
 // Handle order submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     $result = createOrder(
         $_SESSION['user_id'],
-        $_POST['shipping_address'] ?? 'Default Address', // For demo, using default address
-        $_POST['billing_address'] ?? 'Default Address',  // For demo, using default address
-        'cash' // For demo, using cash payment
+        $total,
+        $_POST['shipping_address'] ?? 'Default Address',
+        $_POST['payment_method'] ?? 'cash'
     );
-    
+
     if ($result['success']) {
-        header("Location: " . url('buyer/orders.php') . "?order_id=" . $result['order_id']);
+        header("Location: " . url('views/check-out.php'));
         exit;
     } else {
         $error = $result['message'];
     }
 }
+
+require_once '../includes/header.php';
 ?>
 
 <div class="container mt-4">
@@ -45,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             </h2>
         </div>
     </div>
-    
+
     <?php if (isset($error)): ?>
         <div class="alert alert-danger">
             <i class="fas fa-exclamation-circle me-2"></i><?php echo $error; ?>
         </div>
     <?php endif; ?>
-    
+
     <div class="row">
         <div class="col-md-8">
             <div class="card mb-4">
@@ -68,16 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cart_items as $item): 
+                                <?php foreach ($cart_items as $item):
                                     $item_total = $item['quantity'] * $item['price'];
                                 ?>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="<?php echo $item['image_url'] ? asset('uploads/' . $item['image_url']) : asset('images/placeholder-product.svg'); ?>" 
-                                                     alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                                     class="img-thumbnail me-3"
-                                                     style="width: 60px; height: 60px; object-fit: cover;">
+                                                <img src="<?php echo $item['image_url'] ? upload($item['image_url']) : asset('images/placeholder-product.svg'); ?>"
+                                                    alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                                    class="img-thumbnail me-3"
+                                                    style="width: 60px; height: 60px; object-fit: cover;">
                                                 <div>
                                                     <h6 class="mb-0"><?php echo htmlspecialchars($item['name']); ?></h6>
                                                     <small class="text-muted">Seller: <?php echo htmlspecialchars($item['seller_username']); ?></small>
@@ -94,14 +96,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Payment Method</h5>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>For demonstration purposes, orders will be processed without actual payment.
-                    </div>
                     <form method="post" class="mt-4">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>For demonstration purposes, orders will be processed without actual payment.
+                        </div>
+                        <input type="hidden" name="total_price" value="<?php echo $total; ?>">
+                        <label for="shipping_address" class="form-label">Shipping Address</label>
+                        <input type="text" id="shipping_address" name="shipping_address" value="<?php echo $user['address']; ?>" class="form-control">
+                        <label for="payment_method" class="form-label mt-3">Payment Method</label>
+                        <select name="payment_method" id="payment_method" class="form-select mb-3">
+                            <option value="cash">Cash</option>
+                            <option value="paypal">Paypal</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
                         <button type="submit" name="place_order" class="btn btn-primary">
                             <i class="fas fa-check me-2"></i>Place Order
                         </button>
@@ -112,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">

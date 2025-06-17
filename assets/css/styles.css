@@ -142,6 +142,9 @@ button {
     padding: 0.75rem 2rem;
     font-size: 1.125rem;
 }
+.add-to-cart-btn{
+    width: 100%;
+}
 
 /* Form Styles */
 .form-control {
@@ -299,13 +302,18 @@ button {
     border-radius: 3%;
     border-width: 2px;
     border-style: solid;
+    background-color: white;
 }
 
 .data{
-    margin-top: 50px;
-    padding-top: 10vh;
     padding-bottom: 10vh;
+    border-radius: 10px;
+}
+.data-container{
+    padding: 30px;
+    border-radius: 10px;
     background: linear-gradient(15deg, rgb(69, 66, 66), silver);
+    width: 100%;
 }
 
 .admin-buttons{
@@ -334,6 +342,8 @@ button {
 .hidden{
     visibility: hidden;
     height: 0;
+    margin: 0;
+    padding: 0;
 }
 .details-body > .item{
     border: 5px solid black;
@@ -342,6 +352,27 @@ button {
     padding-bottom: 20px;
     padding-left: 40px;
     padding-top: 10px;
+    background-color: white;
+}
+
+.details-body button{
+    border-radius: 10px;
+    border-style: none;
+}
+
+.details-body .edit-button{
+    background-color: rgba(57, 119, 6, 0.944);
+    color: white;
+}
+
+.details-body .cancel-button{
+    background-color: rgba(255, 0, 0, 0.944);
+    color: white;
+}
+
+.details-body .submit-button{
+    background-color: rgba(57, 119, 6, 0.944);
+    color: white;
 }
 
 .edit-form{
@@ -350,6 +381,11 @@ button {
 }
 .edit-form div{
     align-self: center;
+}
+.edit-form input{
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 
@@ -547,7 +583,7 @@ button {
 }
 
 /* Loading Spinner */
-.loading-spinner {
+/* .loading-spinner {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -561,9 +597,35 @@ button {
     to {
         transform: rotate(360deg);
     }
-}
+} */
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .account-display{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .details-body > .item{
+        border: 5px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        padding-left: 0;
+        
+    }
+    .edit-form{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+    .edit-form div{
+        text-align: center;
+        align-self: center;
+        justify-self: center;
+    }
+}
 @media (max-width: 768px) {
     .hero-section h1 {
         font-size: 2rem;

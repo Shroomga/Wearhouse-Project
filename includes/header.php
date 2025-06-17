@@ -120,16 +120,15 @@ $categories = getCategories();
             default => 'alert-info'
         };
     ?>
-        <div class="container mt-3">
+        <div class="container mt-3 alert-container">
             <div class="alert <?php echo $alert_class; ?> alert-dismissible fade show" role="alert">
                 <i class="fas fa-<?php echo $flash_message['type'] === 'error' ? 'exclamation-triangle' : ($flash_message['type'] === 'success' ? 'check-circle' : 'info-circle'); ?> me-2"></i>
+                <?php echo htmlspecialchars($flash_message['text']); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         </div>
     <?php } ?>
 
-    <main class="flex-grow-1"><?php // Content will be inserted here 
-                                ?>
 </body>
 
 </html>

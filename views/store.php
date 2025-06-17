@@ -1,10 +1,13 @@
 <?php
 require_once '../includes/functions.php';
-require_once '../includes/header.php';
 $category_id = $_GET["category"] ?? null;
 $search = $_GET["search"] ?? null;
 $seller_id = $_GET["seller_id"] ?? null;
 $products = getProducts(null,null,$category_id,$search,$seller_id);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    addToCart($_SESSION['user_id'], $_POST['product_id']);
+}
+require_once '../includes/header.php';
 ?>
 
 <section class="banner-section">
@@ -26,7 +29,7 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
             <div class="card product-card h-100">
                 <div class="position-relative">
                     <?php //echo var_dump($product['image_url']);?>
-                    <img src="<?php echo $product['image_url'] ? asset('uploads/' . $product['image_url']) : asset('images/placeholder-product.svg'); ?>"
+                    <img src="<?php echo $product['image_url'] ? upload($product['image_url']) : asset('images/placeholder-product.svg'); ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 
@@ -64,10 +67,13 @@ $products = getProducts(null,null,$category_id,$search,$seller_id);
                                 <i class="fas fa-eye me-1"></i>View Details
                             </a>
                             <?php if (isLoggedIn() && $_SESSION['user_role'] === 'buyer' && $product['stock_quantity'] > 0) { ?>
-                                <button class="btn btn-primary btn-sm add-to-cart-btn"
-                                    data-product-id="<?php echo $product['id']; ?>">
-                                    <i class="fas fa-cart-plus me-1"></i>Add to Cart
-                                </button>
+                                <form action="" method="post">
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                    <button type="submit" name="add_to_cart" class="btn btn-primary btn-sm add-to-cart-btn"
+                                        data-product-id="<?php echo $product['id']; ?>">
+                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                    </button>
+                                </form>
                             <?php } elseif (!isLoggedIn()) { ?>
                                 <a href="<?php echo url("login.php") ?>" class="btn btn-primary btn-sm">
                                     <i class="fas fa-sign-in-alt me-1"></i>Login to Buy

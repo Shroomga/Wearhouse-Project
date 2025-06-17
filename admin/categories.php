@@ -21,8 +21,8 @@ $categories = $db->fetchAll("SELECT * FROM categories ORDER BY id");
                             <p class="card-text">Parent Category: <?php echo $db->fetchOne("SELECT name FROM categories WHERE id = ?", [$category['parent_id']])['name'] ?></p>
                         <?php } ?>
                         <div class="admin-buttons">
-                            <a href="./category.php?request=edit&id=<?php echo urlencode($category['id']); ?>" class="btn btn-success btn-lg">Edit</a>
-                            <a href="./category.php?request=delete&id=<?php echo urlencode($category['id']); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
+                            <a href="<?php echo url("admin/category.php?request=edit&id=" . urlencode($category['id'])); ?>" class="btn btn-success btn-lg">Edit</a>
+                            <a href="<?php echo url("admin/category.php?request=delete&id=" . urlencode($category['id'])); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
                         </div>
                     </div>
                 </form>

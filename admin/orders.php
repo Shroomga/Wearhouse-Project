@@ -19,8 +19,8 @@ $orders = getOrders();
                         <p class="card-text"><?php echo "To {$order['shipping_address']}" ?></p>
                         <p class="card-text"><?php echo formatPrice($order['total_price']) ?></p>
                         <div class="admin-buttons">
-                            <a href="./order.php?request=edit&id=<?php echo urlencode($order['id']); ?>" class="btn btn-success btn-lg">Edit</a>
-                            <a href="./order.php?request=delete&id=<?php echo urlencode($order['id']); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a>
+                        <a href="<?php echo url("admin/order.php?request=edit&id=" . urlencode($order['id'])); ?>" class="btn btn-success btn-lg">Edit</a>
+                        <a href="<?php echo url("admin/order.php?request=delete&id=" . urlencode($order['id'])); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a>
                         </div>
                     </div>
                 </form>

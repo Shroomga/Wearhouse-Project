@@ -19,8 +19,8 @@ $users = $db->fetchAll("SELECT * FROM users WHERE role !='admin' ORDER BY first_
                     <p class="card-text">Username: <?php echo htmlspecialchars($user['username']); ?></p>
                     <p class="card-text">Role: <?php echo htmlspecialchars($user['role']); ?></p>
                     <div class="admin-buttons">
-                        <a href="./user.php?request=edit&id=<?php echo urlencode($user['id']); ?>" class="btn btn-success btn-lg">Edit</a>
-                        <a href="./user.php?request=delete&id=<?php echo urlencode($user['id']); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    <a href="<?php echo url("admin/user.php?request=edit&id=" . urlencode($user['id'])); ?>" class="btn btn-success btn-lg">Edit</a>
+                    <a href="<?php echo url("admin/user.php?request=delete&id=" . urlencode($user['id'])); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                     </div>
                 </div>
             </div>

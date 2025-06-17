@@ -19,3 +19,9 @@ formControl("fullname");
 formControl("email");
 formControl("phone-number");
 formControl("address");
+
+$(".btn-close").on("click", function () {
+  $(".alert-container").addClass("hidden");
+  $(".alert-container").removeClass("mt-3");
+  $(".alert-container").css("background-color", "red");
+});

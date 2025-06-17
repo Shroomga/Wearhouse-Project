@@ -117,7 +117,7 @@
 
     // Get seller's order items with related information
     $order_items = $db->fetchAll(
-        "SELECT oi.*, o.order_status, o.order_date,
+        "SELECT oi.*, o.order_date,
                 p.name as product_name, p.image_url,
                 u.first_name, u.last_name, u.email
          FROM order_items oi
@@ -183,7 +183,7 @@
                                     <td><?php echo formatDate($item['order_date']); ?></td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="<?php echo $item['image_url'] ? asset('uploads/' . $item['image_url']) : asset('images/placeholder-product.svg'); ?>" 
+                                            <img src="<?php echo $item['image_url'] ? upload($item['image_url']) : asset('images/placeholder-product.svg'); ?>" 
                                                  alt="<?php echo htmlspecialchars($item['product_name']); ?>"
                                                  class="img-thumbnail me-2"
                                                  style="width: 50px; height: 50px; object-fit: cover;">

@@ -18,8 +18,8 @@ $products = $db->fetchAll("SELECT * FROM products ORDER BY name");
                     <p class="card-text"><?php echo $product['description'] ?></p>
                     <p class="card-text"><?php echo formatPrice($product['price']) ?></p>
                     <div class="admin-buttons">
-                        <a href="./product.php?request=edit&id=<?php echo urlencode($product['id']); ?>" class="btn btn-success btn-lg">Edit</a>
-                        <a href="./product.php?request=delete&id=<?php echo urlencode($product['id']); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                    <a href="<?php echo url("admin/product.php?request=edit&id=" . urlencode($product['id'])); ?>" class="btn btn-success btn-lg">Edit</a>
+                    <a href="<?php echo url("admin/product.php?request=delete&id=" . urlencode($product['id'])); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
                     </div>
                 </div>
             </div>
