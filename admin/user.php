@@ -62,7 +62,7 @@ requireRole("admin");
                         <option value="admin" <?php echo $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Update User</button>
+                <button type="submit" class="btn btn-primary mt-3">Update User</button>
             </form>
         </div>
     </div>

@@ -512,8 +512,9 @@ function getFlashMessage()
     }
     return null;
 }
-//default destination folder is uploads/products/
-function uploadImage($file, $destination_folder = '/uploads/images/products/')
+//default destination folder is uploads/images/products/
+
+function uploadImage($file, $destination_folder = "../uploads/images/products")
 {
     if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
         return ['success' => false, 'message' => 'No file uploaded'];
@@ -531,7 +532,7 @@ function uploadImage($file, $destination_folder = '/uploads/images/products/')
     }
 
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = uniqid() . '.' . $extension;
+    $filename = sha1_file($file['tmp_name']) . '.' . $extension;
     $filepath = $destination_folder . $filename;
 
     if (!is_dir($destination_folder)) {

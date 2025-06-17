@@ -31,12 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle image upload
     if (!empty($_FILES['image_url']['name'])) {
-        $upload = uploadImage($_FILES['image_url'], 'uploads/products/');
+        $destination_folder = "../uploads/images/products/";
+        $upload = uploadImage($_FILES['image_url'], $destination_folder);
         if ($upload['success']) {
-            $image_url = 'images/products/' . $upload['filename'];
+            $image_url = $upload['filename'];
             // Optionally delete old image
             if (!empty($product['image_url'])) {
-                $old_path = __DIR__ . '/../uploads/' . $product['image_url'];
+                $old_path =  upload($product['image_url']);
                 if (file_exists($old_path)) {
                     @unlink($old_path);
                 }
@@ -53,7 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'issdisssssii'
     );
     setFlashMessage('Product updated successfully!', 'success');
-    header('Location: ' . url('seller/products.php'));
+    var_dump($upload);
+    echo "<br><br>";
+    echo "Destination folder: " . $destination_folder;
+    echo "<br><br>";
+    echo "Image url: " . $image_url;
+    echo "<br><br>";
+    echo "Filename: " . $_FILES['image_url']['name'];
+    echo "<br><br>";
+    echo "Database image url: " . $product['image_url'];
     exit;
 }
 require_once '../includes/header.php';

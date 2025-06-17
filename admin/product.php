@@ -10,13 +10,13 @@ if ($request === 'edit') {
         $color = $_POST['color'];
         $size = $_POST['size'];
         var_dump($_FILES);
-        $image = uploadImage($_FILES['image'], 'products');
-        $imageUrl = $image ? $image['filename'] : null;
+        $image = uploadImage($_FILES['image']);
+        $imageUrl = $image['success'] ? $image['filename'] : null;
         $price = $_POST['price'];
 
         // Update product details
         $db->query(
-            "UPDATE products SET name = ?, description = ?, price = ?, color = ?, size = ?, image = ? WHERE id = ?",
+            "UPDATE products SET name = ?, description = ?, price = ?, color = ?, size = ?, image_url = ? WHERE id = ?",
             [$name, $description, $price, $color, $size, $imageUrl, $_GET['id']]
         );
         header("Location: products.php");
@@ -64,7 +64,7 @@ requireRole("admin");
                     <label for="image">Image</label>
                     <input type="file" class="form-control-file" id="image" name="image">
                     <?php if ($product['image_url']) { ?>
-                        <img src="/uploads/<?php echo htmlspecialchars($product['image_url']); ?>" alt="Product Image" class="img-thumbnail mt-2" style="max-width: 200px;">
+                        <img src="<?php echo $product['image_url'] ? upload($product['image_url']) : asset('images/placeholder-product.svg'); ?>" alt="Product Image" class="img-thumbnail mt-2" style="max-width: 200px;">
                     <?php } else { ?>
                         <p>No image uploaded.</p>
                     <?php } ?>
@@ -73,7 +73,7 @@ requireRole("admin");
                     <label for="price">Price</label>
                     <input type="text" class="form-control" id="price" name="price" value="<?php echo htmlspecialchars($product['price']); ?>">
                 </div>
-                <button type="submit" class="btn btn-primary">Update Product</button>
+                <button type="submit" class="btn btn-primary mt-3">Update Product</button>
             </form>
         </div>
     </div>
