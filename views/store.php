@@ -29,7 +29,7 @@ require_once '../includes/header.php';
             <div class="card product-card h-100">
                 <div class="position-relative">
                     <?php //echo var_dump($product['image_url']);?>
-                    <img src="<?php echo $product['image_url'] ? upload($product['image_url']) : asset('images/placeholder-product.svg'); ?>"
+                    <img src="<?php echo $product['image_url'] ? upload("images/products/" . $product['image_url']) : asset('images/placeholder-product.svg'); ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
 

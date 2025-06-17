@@ -86,7 +86,7 @@ $commission_rate = 0.10; // 10% commission
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                        <img src="<?php echo $item['image_url'] ? upload($item['image_url']) : asset('images/placeholder-product.svg'); ?>" 
+                                                        <img src="<?php echo $item['image_url'] ? upload("images/products/" . $item['image_url']) : asset('images/placeholder-product.svg'); ?>" 
                                                             alt="<?php echo htmlspecialchars($item['name']); ?>"
                                                          class="img-thumbnail me-3"
                                                          style="width: 80px; height: 80px; object-fit: cover;">

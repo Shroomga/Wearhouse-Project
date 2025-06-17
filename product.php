@@ -21,7 +21,7 @@ require_once 'includes/header.php';
 <div class="container">
     <div class="row">
         <div class="col">
-            <img src="<?php echo $product['image_url'] ? upload($product['image_url']) : asset('images/placeholder-product.svg'); ?>" class="product-detail-img">
+            <img src="<?php echo $product['image_url'] ? upload("images/products/" . $product['image_url']) : asset('images/placeholder-product.svg'); ?>" class="product-detail-img">
         </div>
         <div class="col">
             <div class="container">

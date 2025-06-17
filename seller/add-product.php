@@ -19,9 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle image upload
     if (!empty($_FILES['image_url']['name'])) {
-        $upload = uploadImage($_FILES['image_url'], 'uploads/images/products/');
+        $destination_folder = "../uploads/images/products/";
+        $upload = uploadImage($_FILES['image_url'], $destination_folder);
         if ($upload['success']) {
-            $image_url = 'images/products/' . $upload['filename'];
+            $image_url = $upload['filename'];
         } else {
             setFlashMessage($upload['message'], 'error');
         }

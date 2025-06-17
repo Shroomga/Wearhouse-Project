@@ -24,7 +24,7 @@ require_once '../includes/header.php';
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card product-card h-100">
                 <div class="position-relative">
-                    <img src="<?php echo $product['image_url'] ? upload($product['image_url']) : asset('images/placeholder-product.svg'); ?>"
+                    <img src="<?php echo $product['image_url'] ? upload("images/products/" . $product['image_url']) : asset('images/placeholder-product.svg'); ?>"
                         class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
 
                     <!-- Delete Button (X) -->

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image_url = $upload['filename'];
             // Optionally delete old image
             if (!empty($product['image_url'])) {
-                $old_path =  upload($product['image_url']);
+                $old_path =  upload("images/products/" . $product['image_url']);
                 if (file_exists($old_path)) {
                     @unlink($old_path);
                 }
@@ -124,7 +124,7 @@ $this_category = getCategoryById($product['category_id']);
             <label class="form-label">Product Image</label>
             <?php if (!empty($product['image_url'])) { ?>
                 <div class="mb-2">
-                    <img src="<?php echo '/uploads/' . $product['image_url']; ?>" alt="Current Image" style="max-width: 120px; max-height: 120px;">
+                    <img src="<?php echo upload("images/products/" . $product['image_url']); ?>" alt="Current Image" style="max-width: 120px; max-height: 120px;">
                 </div>
             <?php } ?>
             <input type="file" name="image_url" class="form-control" accept="image/*">
