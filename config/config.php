@@ -1,11 +1,11 @@
 <?php
 // Base URL configuration
-$base_url = '/Wearhouse Project';
+$base_url = '/';
 
 // Function to generate URLs relative to the base URL
 function url($path = '') {
     global $base_url;
-    return $base_url . '/' . ltrim($path, '/');
+    return $base_url . ltrim($path, '/');
 }
 
 // Function to generate asset URLs
